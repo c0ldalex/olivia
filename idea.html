@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тихая бухта · Пространство в Alean Olivia 5*</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --abyss: #04141f;
+    --deep: #071f2e;
+    --mid: #0a2d40;
+    --teal: #1a5c6e;
+    --aqua: #64d4d4;
+    --bio: #7fffd4;
+    --moon: #e8f6f7;
+    --sand: #d4b896;
+    --coral: #e76f51;
+    --text: #c9dde3;
+    --muted: #6a8a96;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--abyss);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ФОН */
+  .ocean-bg {
+    position: fixed; inset: 0; z-index: -2;
+    background: radial-gradient(ellipse at 50% 0%, #0d3849 0%, #071f2e 40%, #04141f 100%);
+  }
+  .ocean-bg::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60vh;
+    background: linear-gradient(180deg, rgba(100,212,212,0.15) 0%, rgba(100,212,212,0.05) 30%, transparent 100%);
+    animation: lightShimmer 8s ease-in-out infinite;
+  }
+  @keyframes lightShimmer { 0%,100%{opacity:.6} 50%{opacity:1} }
+
+  .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute; width: 3px; height: 3px; background: var(--bio); border-radius: 50%;
+    box-shadow: 0 0 12px var(--bio), 0 0 24px rgba(127,255,212,0.4);
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: .8; }
+    90% { opacity: .4; }
+    100% { transform: translateY(-110vh) translateX(40px); opacity: 0; }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; padding: 22px 48px;
+    display: flex; justify-content: space-between; align-items: center; z-index: 100;
+    backdrop-filter: blur(20px);
+    background: linear-gradient(180deg, rgba(4,20,31,0.95), rgba(4,20,31,0.5));
+    border-bottom: 1px solid rgba(100,212,212,0.08);
+    transition: padding .4s;
+  }
+  nav.scrolled { padding: 14px 48px; }
+
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Cormorant Garamond', serif; font-size: 21px; font-weight: 500;
+    letter-spacing: 2px; color: var(--moon); cursor: pointer; flex-shrink: 0;
+  }
+  .logo-mark { width: 32px; height: 32px; position: relative; }
+  .logo-mark svg { width: 100%; height: 100%; filter: drop-shadow(0 0 8px rgba(100,212,212,0.6)); animation: rotateMark 12s linear infinite; }
+  @keyframes rotateMark { to { transform: rotate(360deg); } }
+
+  .nav-links { display: flex; gap: 6px; align-items: center; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 500;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 100px;
+    transition: all .3s; position: relative; cursor: pointer;
+  }
+  .nav-links a:hover { color: var(--aqua); background: rgba(100,212,212,0.06); }
+  .nav-links a.active { color: var(--bio); background: rgba(100,212,212,0.1); }
+
+  .nav-cta {
+    padding: 10px 22px; background: transparent; border: 1px solid var(--aqua);
+    color: var(--moon); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    border-radius: 100px; cursor: pointer; transition: all .4s;
+    font-family: 'Inter', sans-serif; margin-left: 12px;
+  }
+  .nav-cta:hover { background: var(--aqua); color: var(--abyss); box-shadow: 0 0 24px rgba(100,212,212,0.4); }
+
+  /* PAGES */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; animation: pageFade .6s ease; }
+  @keyframes pageFade { from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)} }
+
+  /* Секции */
+  section { padding: 120px 48px; max-width: 1400px; margin: 0 auto; position: relative; }
+  .eyebrow {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px;
+    color: var(--aqua); letter-spacing: 4px; text-transform: uppercase;
+    margin-bottom: 20px; display: block;
+  }
+  .title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 72px); font-weight: 300; line-height: 1.1;
+    letter-spacing: -1.5px; color: var(--moon); margin-bottom: 32px;
+  }
+  .title em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--aqua), var(--bio));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .lead { font-size: 17px; color: var(--muted); max-width: 640px; line-height: 1.8; }
+  .lead strong { color: var(--text); font-weight: 400; }
+
+  /* Кнопки */
+  .btn {
+    display: inline-block; padding: 18px 42px; background: transparent;
+    border: 1px solid var(--aqua); color: var(--moon);
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; transition: all .5s;
+    position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
+  }
+  .btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--aqua), var(--bio));
+    transform: translateY(100%); transition: transform .5s; z-index: -1;
+  }
+  .btn:hover { color: var(--abyss); border-color: var(--bio); box-shadow: 0 0 40px rgba(100,212,212,0.4); }
+  .btn:hover::before { transform: translateY(0); }
+  .btn span { position: relative; z-index: 1; }
+  .btn.solid { background: var(--aqua); color: var(--abyss); border-color: var(--aqua); }
+  .btn.solid:hover { background: var(--bio); border-color: var(--bio); }
+
+  /* HERO главная */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 140px 40px 80px; text-align: center; position: relative;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 11vw, 160px); font-weight: 300;
+    line-height: 0.95; letter-spacing: -3px; color: var(--moon); margin-bottom: 32px;
+    opacity: 0; animation: fadeIn 1.4s .5s ease forwards;
+  }
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(180deg, var(--moon), var(--aqua));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  /* HERO внутренних страниц */
+  .hero-inner {
+    min-height: 55vh; display: flex; flex-direction: column;
+    justify-content: flex-end; padding: 180px 48px 60px;
+    max-width: 1400px; margin: 0 auto; position: relative;
+  }
+  .hero-inner .eyebrow { opacity: 0; animation: fadeIn 1s .2s ease forwards; }
+  .hero-inner h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 8vw, 120px); font-weight: 300;
+    line-height: 0.98; letter-spacing: -2px; color: var(--moon);
+    margin-bottom: 28px; opacity: 0; animation: fadeIn 1.2s .4s ease forwards;
+  }
+  .hero-inner h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--aqua), var(--bio));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-inner .lead { opacity: 0; animation: fadeIn 1.2s .6s ease forwards; }
+
+  /* МАНИФЕСТ */
+  .manifesto { max-width: 900px; margin: 0 auto; text-align: center; padding: 80px 48px; }
+  .manifesto p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 2.6vw, 34px); font-weight: 300;
+    line-height: 1.5; color: var(--moon); font-style: italic;
+  }
+  .manifesto p span { color: var(--aqua); font-style: normal; }
+
+  /* ЦИФРЫ */
+  .numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 60px; }
+  .number-card {
+    background: linear-gradient(180deg, rgba(10,45,64,0.4), rgba(4,20,31,0.2));
+    border: 1px solid rgba(100,212,212,0.12); border-radius: 4px; padding: 36px 24px;
+    text-align: center; transition: all .5s; position: relative; overflow: hidden;
+  }
+  .number-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+    opacity: 0; transition: opacity .5s;
+  }
+  .number-card:hover { transform: translateY(-8px); border-color: rgba(100,212,212,0.4); }
+  .number-card:hover::before { opacity: 1; }
+  .number-value {
+    font-family: 'Cormorant Garamond', serif; font-size: 60px; font-weight: 300;
+    color: var(--bio); line-height: 1; margin-bottom: 12px; letter-spacing: -2px;
+  }
+  .number-value small { font-size: 22px; color: var(--aqua); vertical-align: top; margin-left: 4px; }
+  .number-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; line-height: 1.5; }
+
+  /* ЗОНЫ */
+  .zones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 60px; }
+  .zone {
+    background: linear-gradient(180deg, rgba(10,45,64,0.5), rgba(4,20,31,0.3));
+    border: 1px solid rgba(100,212,212,0.12); border-radius: 4px;
+    padding: 40px; position: relative; overflow: hidden; transition: all .5s;
+  }
+  .zone:hover { border-color: rgba(100,212,212,0.4); transform: translateY(-4px); }
+  .zone-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: var(--aqua); letter-spacing: 3px; margin-bottom: 16px; }
+  .zone-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: var(--moon); margin-bottom: 12px; letter-spacing: -0.5px; }
+  .zone-desc { font-size: 14px; color: var(--muted); line-height: 1.75; }
+  .zone-icon { position: absolute; top: 32px; right: 32px; font-size: 34px; opacity: .3; transition: all .5s; }
+  .zone:hover .zone-icon { opacity: .8; transform: scale(1.1) rotate(5deg); }
+
+  /* ТРАНСФОРМАЦИЯ */
+  .transform {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: center; margin-top: 60px;
+  }
+  .transform-visual {
+    aspect-ratio: 1; position: relative;
+    background: linear-gradient(180deg, rgba(10,45,64,0.5), rgba(4,20,31,0.3));
+    border: 1px solid rgba(100,212,212,0.15); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .transform-visual svg { width: 85%; height: 85%; }
+  .transform-text h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 36px;
+    color: var(--moon); font-weight: 400; margin-bottom: 20px; line-height: 1.15;
+  }
+  .transform-text p { color: var(--muted); font-size: 15px; margin-bottom: 24px; line-height: 1.8; }
+  .transform-list { list-style: none; padding: 0; }
+  .transform-list li {
+    padding: 12px 0 12px 32px; position: relative;
+    color: var(--text); font-size: 14px; border-bottom: 1px solid rgba(100,212,212,0.08);
+  }
+  .transform-list li::before {
+    content: '→'; position: absolute; left: 0; color: var(--aqua); font-size: 16px;
+  }
+
+  /* ФОРМАТЫ */
+  .formats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; }
+  .format {
+    background: linear-gradient(180deg, rgba(10,45,64,0.5), rgba(4,20,31,0.3));
+    border: 1px solid rgba(100,212,212,0.12); border-radius: 4px;
+    padding: 32px; transition: all .5s; cursor: pointer; position: relative;
+    overflow: hidden;
+  }
+  .format::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(100,212,212,0.05), transparent);
+    opacity: 0; transition: opacity .4s;
+  }
+  .format:hover { border-color: var(--aqua); transform: translateY(-6px); }
+  .format:hover::before { opacity: 1; }
+  .format-icon { font-size: 36px; margin-bottom: 20px; display: inline-block; position: relative; }
+  .format-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 24px;
+    color: var(--moon); margin-bottom: 10px; position: relative;
+  }
+  .format-desc { font-size: 13px; color: var(--muted); line-height: 1.7; position: relative; }
+  .format-tag {
+    display: inline-block; margin-top: 16px; padding: 4px 12px;
+    background: rgba(100,212,212,0.08); border: 1px solid rgba(100,212,212,0.2);
+    border-radius: 100px; font-size: 10px; color: var(--aqua);
+    letter-spacing: 1.5px; text-transform: uppercase; position: relative;
+  }
+
+  /* КАЛЕНДАРЬ */
+  .calendar { margin-top: 60px; }
+  .cal-months {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 40px;
+  }
+  .cal-month {
+    padding: 16px 8px; text-align: center; cursor: pointer;
+    background: rgba(10,45,64,0.4); border: 1px solid rgba(100,212,212,0.12);
+    border-radius: 4px; font-size: 12px; color: var(--muted);
+    letter-spacing: 1px; text-transform: uppercase; transition: all .3s;
+    font-family: 'Inter', sans-serif;
+  }
+  .cal-month:hover { border-color: var(--aqua); color: var(--text); }
+  .cal-month.active {
+    background: rgba(100,212,212,0.15); border-color: var(--aqua); color: var(--bio);
+  }
+  .cal-events { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .cal-event {
+    background: linear-gradient(180deg, rgba(10,45,64,0.5), rgba(4,20,31,0.3));
+    border: 1px solid rgba(100,212,212,0.12); border-radius: 4px;
+    padding: 24px; transition: all .4s; cursor: pointer;
+  }
+  .cal-event:hover { border-color: var(--aqua); transform: translateX(4px); }
+  .cal-event-date {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    color: var(--aqua); font-size: 13px; letter-spacing: 2px; margin-bottom: 8px;
+  }
+  .cal-event-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 20px;
+    color: var(--moon); margin-bottom: 8px;
+  }
+  .cal-event-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .cal-event-tag {
+    display: inline-block; margin-top: 12px; padding: 3px 10px;
+    background: rgba(100,212,212,0.08); border-radius: 100px;
+    font-size: 10px; color: var(--aqua); letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* ИСТОРИИ */
+  .story {
+    background: linear-gradient(180deg, rgba(10,45,64,0.6), rgba(4,20,31,0.3));
+    border-left: 2px solid var(--aqua); padding: 40px 40px 40px 48px;
+    margin-bottom: 24px; border-radius: 0 4px 4px 0;
+    transition: all .5s; position: relative;
+  }
+  .story:hover { transform: translateX(8px); border-left-color: var(--bio); }
+  .story::before {
+    content: '"'; position: absolute; top: 12px; left: 16px;
+    font-family: 'Cormorant Garamond', serif; font-size: 72px;
+    color: var(--aqua); opacity: .15; line-height: 1;
+  }
+  .story-text {
+    font-family: 'Cormorant Garamond', serif; font-size: 21px; font-weight: 300;
+    font-style: italic; color: var(--moon); line-height: 1.55; margin-bottom: 22px; position: relative;
+  }
+  .story-author { display: flex; align-items: center; gap: 14px; }
+  .story-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--aqua));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--abyss);
+    border: 1px solid rgba(100,212,212,0.4); flex-shrink: 0;
+  }
+  .story-name { font-size: 13px; color: var(--text); font-weight: 500; }
+  .story-role { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+  /* МЕДИА-СТАТИСТИКА */
+  .media-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 60px;
+  }
+  .media-stat {
+    text-align: center; padding: 32px 16px;
+    background: rgba(10,45,64,0.4); border: 1px solid rgba(100,212,212,0.12); border-radius: 4px;
+  }
+  .media-stat-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300;
+    color: var(--bio); line-height: 1; letter-spacing: -2px; margin-bottom: 8px;
+  }
+  .media-stat-label { font-size: 11px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
+
+  /* ПРЕСС-КИТ */
+  .press-kit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; }
+  .press-item {
+    background: linear-gradient(180deg, rgba(10,45,64,0.5), rgba(4,20,31,0.3));
+    border: 1px solid rgba(100,212,212,0.12); border-radius: 4px;
+    padding: 32px; transition: all .4s; cursor: pointer;
+  }
+  .press-item:hover { border-color: var(--aqua); transform: translateY(-4px); }
+  .press-icon { font-size: 32px; margin-bottom: 16px; }
+  .press-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--moon); margin-bottom: 8px; }
+  .press-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  .press-download {
+    font-size: 11px; color: var(--aqua); letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; transition: all .3s;
+  }
+  .press-download:hover { color: var(--bio); }
+
+  /* ПАРТНЁРАМ */
+  .partners-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 60px;
+  }
+  .partner-card {
+    background: linear-gradient(180deg, rgba(10,45,64,0.5), rgba(4,20,31,0.3));
+    border: 1px solid rgba(100,212,212,0.15); border-radius: 4px;
+    padding: 44px; position: relative; transition: all .5s;
+  }
+  .partner-card:hover { border-color: var(--aqua); transform: translateY(-6px); }
+  .partner-num {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 14px; color: var(--aqua); letter-spacing: 3px; margin-bottom: 20px;
+  }
+  .partner-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 32px;
+    color: var(--moon); font-weight: 400; margin-bottom: 16px;
+  }
+  .partner-desc { color: var(--muted); font-size: 14px; line-height: 1.8; margin-bottom: 24px; }
+  .partner-details { list-style: none; padding: 0; border-top: 1px solid rgba(100,212,212,0.1); padding-top: 20px; }
+  .partner-details li {
+    padding: 10px 0 10px 24px; position: relative;
+    font-size: 13px; color: var(--text); border-bottom: 1px solid rgba(100,212,212,0.06);
+  }
+  .partner-details li::before {
+    content: '·'; position: absolute; left: 8px; color: var(--aqua); font-size: 24px; line-height: 1;
+  }
+
+  /* CTA */
+  .cta { text-align: center; padding: 120px 48px; position: relative; }
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 6vw, 88px); font-weight: 300; line-height: 1.05;
+    color: var(--moon); letter-spacing: -2px; margin-bottom: 28px;
+  }
+  .cta-title em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--aqua), var(--bio));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .cta-text { max-width: 560px; margin: 0 auto 44px; font-size: 16px; color: var(--muted); line-height: 1.8; }
+
+  /* ФОРМА */
+  .form {
+    max-width: 700px; margin: 60px auto 0;
+    background: linear-gradient(180deg, rgba(10,45,64,0.5), rgba(4,20,31,0.3));
+    border: 1px solid rgba(100,212,212,0.15); border-radius: 4px; padding: 48px;
+  }
+  .form-row { margin-bottom: 20px; }
+  .form-label {
+    display: block; font-size: 11px; color: var(--aqua); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .form input, .form select, .form textarea {
+    width: 100%; padding: 14px 18px; background: rgba(4,20,31,0.6);
+    border: 1px solid rgba(100,212,212,0.2); border-radius: 4px;
+    color: var(--text); font-size: 14px; font-family: 'Inter', sans-serif;
+    transition: all .3s;
+  }
+  .form input:focus, .form select:focus, .form textarea:focus {
+    outline: none; border-color: var(--aqua);
+    background: rgba(4,20,31,0.8); box-shadow: 0 0 20px rgba(100,212,212,0.15);
+  }
+  .form textarea { min-height: 120px; resize: vertical; }
+  .form .btn { width: 100%; margin-top: 12px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* ФИЛЬТР */
+  .filters { display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 10px 22px; background: transparent;
+    border: 1px solid rgba(100,212,212,0.2); border-radius: 100px;
+    color: var(--muted); font-size: 12px; letter-spacing: 1.5px;
+    text-transform: uppercase; cursor: pointer; transition: all .3s;
+    font-family: 'Inter', sans-serif;
+  }
+  .filter-btn:hover { border-color: var(--aqua); color: var(--text); }
+  .filter-btn.active {
+    background: rgba(100,212,212,0.15); border-color: var(--aqua); color: var(--bio);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 60px 48px 40px; border-top: 1px solid rgba(100,212,212,0.08);
+    font-size: 12px; color: var(--muted); letter-spacing: 1px;
+  }
+  .footer-grid {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+  }
+  .footer-quote {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 18px; color: var(--aqua); letter-spacing: 1px; margin-bottom: 20px;
+  }
+  .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--moon); margin-bottom: 12px; letter-spacing: 1px; }
+  .footer-col h4 {
+    font-size: 11px; color: var(--aqua); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 16px; font-weight: 500;
+  }
+  .footer-col a {
+    display: block; color: var(--muted); text-decoration: none;
+    font-size: 13px; padding: 5px 0; transition: color .3s; cursor: pointer;
+  }
+  .footer-col a:hover { color: var(--aqua); }
+  .footer-bottom {
+    max-width: 1400px; margin: 40px auto 0; padding-top: 24px;
+    border-top: 1px solid rgba(100,212,212,0.06); text-align: center; font-size: 11px;
+  }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.22, 1, 0.36, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Прогресс */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, var(--aqua), var(--bio));
+    z-index: 1000; width: 0%; box-shadow: 0 0 12px var(--bio); transition: width .1s;
+  }
+
+  /* Адаптив */
+  @media (max-width: 1024px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section, .hero-inner { padding: 100px 24px; }
+    .hero-inner { padding-top: 140px; }
+    .numbers, .formats, .press-kit, .partners-grid, .media-stats { grid-template-columns: repeat(2, 1fr); }
+    .zones, .transform, .cal-events { grid-template-columns: 1fr; }
+    .cal-months { grid-template-columns: repeat(4, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .form-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 120px 20px 60px; }
+    .numbers, .formats, .press-kit, .partners-grid, .media-stats { grid-template-columns: 1fr; }
+    .number-value { font-size: 44px; }
+    .zone, .story, .form { padding: 28px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .cal-months { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress"></div>
+<div class="ocean-bg"></div>
+<div class="particles" id="particles"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo" onclick="go('home')">
+    <div class="logo-mark">
+      <svg viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="46" stroke="url(#ringGrad)" stroke-width="1" fill="none"/>
+        <circle cx="50" cy="50" r="34" stroke="url(#ringGrad)" stroke-width="1" fill="none" opacity="0.6"/>
+        <path d="M28 50 C 40 38, 55 34, 68 38 C 72 39, 75 42, 78 44 C 76 48, 72 50, 66 50 C 69 54, 70 60, 68 64 C 62 60, 54 58, 46 58 C 38 58, 32 55, 28 50 Z" fill="url(#ringGrad)"/>
+        <defs>
+          <linearGradient id="ringGrad" x1="0" y1="0" x2="100" y2="100">
+            <stop offset="0%" stop-color="#64d4d4"/>
+            <stop offset="100%" stop-color="#7fffd4"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <span>Тихая бухта</span>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a data-page="home" onclick="go('home')">Главная</a>
+    <a data-page="space" onclick="go('space')">Пространство</a>
+    <a data-page="events" onclick="go('events')">События</a>
+    <a data-page="media" onclick="go('media')">Медиа</a>
+    <a data-page="partners" onclick="go('partners')">Партнёрам</a>
+    <a data-page="contact" onclick="go('contact')">Контакты</a>
+    <button class="nav-cta" onclick="go('contact')">Забронировать</button>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ============ ГЛАВНАЯ ============ -->
+<div class="page active" data-page="home">
+
+  <section class="hero">
+    <div class="eyebrow" style="opacity:0;animation:fadeIn 1.2s .3s ease forwards;">Alean Family Olivia 5* · Анапа · 2027</div>
+    <h1>Тихая<br><em>бухта</em></h1>
+    <p class="lead" style="text-align:center;margin:0 auto;opacity:0;animation:fadeIn 1.2s .9s ease forwards;">
+      Первое в России трансформируемое пространство в курортном отеле.
+      Сцена для событий, место силы для гостей и повод для медиа — <strong>365 дней в году</strong>.
+    </p>
+    <div style="margin-top:48px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeIn 1.2s 1.2s ease forwards;">
+      <button class="btn" onclick="go('space')"><span>Что это за место</span></button>
+      <button class="btn" onclick="go('events')"><span>Календарь событий</span></button>
+    </div>
+  </section>
+
+  <section class="manifesto">
+    <p class="reveal">
+      «Это не музей и не выставка. Это <span>сцена</span>, которая меняется каждый день:
+      утром — йога у воды, днём — детский квест, вечером — кинопоказ,
+      а завтра — пресс-конференция или свадьба».
+    </p>
+  </section>
+
+  <section>
+    <span class="eyebrow reveal">Что мы создаём</span>
+    <h2 class="title reveal">Одно пространство. <em>Сто сценариев.</em></h2>
+    <p class="lead reveal">«Тихая бухта» — это не «место про дельфинов». Это универсальная площадка с морской ДНК, где каждый день что-то происходит. Мы даём сцену — вы приносите событие.</p>
+
+    <div class="numbers">
+      <div class="number-card reveal">
+        <div class="number-value">365<small>+</small></div>
+        <div class="number-label">дней в году<br>жизнь пространства</div>
+      </div>
+      <div class="number-card reveal">
+        <div class="number-value">12</div>
+        <div class="number-label">форматов<br>событий</div>
+      </div>
+      <div class="number-card reveal">
+        <div class="number-value">6</div>
+        <div class="number-label">трансформируемых<br>зон</div>
+      </div>
+      <div class="number-card reveal">
+        <div class="number-value">50<small>+</small></div>
+        <div class="number-label">инфоповодов<br>для СМИ в год</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow reveal">Форматы</span>
+    <h2 class="title reveal">Что здесь <em>происходит</em></h2>
+
+    <div class="formats">
+      <div class="format reveal">
+        <div class="format-icon">🎓</div>
+        <div class="format-title">Лекции и встречи</div>
+        <div class="format-desc">Учёные, путешественники, шеф-повара, режиссёры. Каждую неделю — новый спикер. Открыто для гостей отеля и города.</div>
+        <div class="format-tag">Еженедельно</div>
+      </div>
+      <div class="format reveal">
+        <div class="format-icon">🎬</div>
+        <div class="format-title">Кинопоказы</div>
+        <div class="format-desc">Документальное кино о море, природе, людях. Премьеры, обсуждения с режиссёрами. Формат «кино под открытым небом».</div>
+        <div class="format-tag">2 раза в неделю</div>
+      </div>
+      <div class="format reveal">
+        <div class="format-icon">🎨</div>
+        <div class="format-title">Выставки и арт</div>
+        <div class="format-desc">Фотографы, художники, скульпторы. Резиденции для авторов, которые создают работы прямо здесь — и оставляют их отелю.</div>
+        <div class="format-tag">Сезонные</div>
+      </div>
+      <div class="format reveal">
+        <div class="format-icon">🧘</div>
+        <div class="format-title">Йога и медитация</div>
+        <div class="format-desc">Утренние практики у воды. Дыхание, тишина, звуки моря. Для гостей и местных. Отдельный ритуал — «15 минут тишины».</div>
+        <div class="format-tag">Ежедневно</div>
+      </div>
+      <div class="format reveal">
+        <div class="format-icon">🎉</div>
+        <div class="format-title">Частные события</div>
+        <div class="format-desc">Свадьбы, дни рождения, корпоративы, детские праздники. Пространство трансформируется под любой сценарий — от романтики до шумной вечеринки.</div>
+        <div class="format-tag">По запросу</div>
+      </div>
+      <div class="format reveal">
+        <div class="format-icon">📸</div>
+        <div class="format-title">Съёмки и пресса</div>
+        <div class="format-desc">Фотосессии, интервью, съёмки для СМИ и брендов. Локация работает как готовая декорация в любое время года.</div>
+        <div class="format-tag">Круглый год</div>
+      </div>
+      <div class="format reveal">
+        <div class="format-icon">🍽️</div>
+        <div class="format-title">Гастроужины</div>
+        <div class="format-desc">Ужины от шефов, дегустации локальных продуктов, винные вечера. Формат «стол у моря» на 20–40 человек.</div>
+        <div class="format-tag">2 раза в месяц</div>
+      </div>
+      <div class="format reveal">
+        <div class="format-icon">🎭</div>
+        <div class="format-title">Театр и музыка</div>
+        <div class="format-desc">Камерные спектакли, акустические концерты, поэтические вечера. Сцена с идеальной акустикой и видом на море.</div>
+        <div class="format-tag">Ежемесячно</div>
+      </div>
+      <div class="format reveal">
+        <div class="format-icon">👶</div>
+        <div class="format-title">Детские программы</div>
+        <div class="format-desc">Квесты, мастер-классы, научные шоу. Родители отдыхают — дети заняты. Отдельный формат для семей с малышами.</div>
+        <div class="format-tag">Ежедневно</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow reveal">Ключевая идея</span>
+    <h2 class="title reveal">Пространство, которое <em>меняется</em></h2>
+
+    <div class="transform">
+      <div class="transform-visual reveal">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <!-- Центральная сцена -->
+          <circle cx="200" cy="200" r="120" fill="none" stroke="rgba(100,212,212,0.2)" stroke-width="1"/>
+          <circle cx="200" cy="200" r="80" fill="none" stroke="rgba(100,212,212,0.3)" stroke-width="1"/>
+          <circle cx="200" cy="200" r="40" fill="url(#centerGrad)"/>
+          <text x="200" y="205" font-family="Cormorant Garamond" font-size="14" fill="#04141f" text-anchor="middle" font-style="italic">сцена</text>
+
+          <!-- Орбита форматов -->
+          <g opacity="0.7">
+            <circle cx="200" cy="80" r="10" fill="#64d4d4"/>
+            <text x="200" y="60" font-family="Inter" font-size="9" fill="#64d4d4" text-anchor="middle">ЛЕКЦИИ</text>
+          </g>
+          <g opacity="0.7">
+            <circle cx="320" cy="140" r="10" fill="#7fffd4"/>
+            <text x="320" y="120" font-family="Inter" font-size="9" fill="#7fffd4" text-anchor="middle">КИНО</text>
+          </g>
+          <g opacity="0.7">
+            <circle cx="320" cy="280" r="10" fill="#64d4d4"/>
+            <text x="320" y="310" font-family="Inter" font-size="9" fill="#64d4d4" text-anchor="middle">ЙОГА</text>
+          </g>
+          <g opacity="0.7">
+            <circle cx="200" cy="330" r="10" fill="#7fffd4"/>
+            <text x="200" y="360" font-family="Inter" font-size="9" fill="#7fffd4" text-anchor="middle">АРТ</text>
+          </g>
+          <g opacity="0.7">
+            <circle cx="80" cy="280" r="10" fill="#64d4d4"/>
+            <text x="80" y="310" font-family="Inter" font-size="9" fill="#64d4d4" text-anchor="middle">ДЕТИ</text>
+          </g>
+          <g opacity="0.7">
+            <circle cx="80" cy="140" r="10" fill="#7fffd4"/>
+            <text x="80" y="120" font-family="Inter" font-size="9" fill="#7fffd4" text-anchor="middle">СВАДЬБЫ</text>
+          </g>
+
+          <defs>
+            <radialGradient id="centerGrad">
+              <stop offset="0%" stop-color="#7fffd4"/>
+              <stop offset="100%" stop-color="#2a9d8f"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="transform-text reveal">
+        <h3>Утром — одно. Вечером — другое.</h3>
+        <p>Мы спроектировали пространство как трансформер. Перестановка занимает 30 минут, а сценарий меняется за час. Это значит: одна площадка — десятки разных событий в год.</p>
+        <ul class="transform-list">
+          <li>Днём — детская лаборатория, вечером — бар и кинопоказ</li>
+          <li>В будни — лекции и йога, в выходные — свадьбы и праздники</li>
+          <li>Зимой — резиденции художников, летом — концерты у моря</li>
+          <li>Между сезонами — пресс-конференции и съёмки</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2 class="cta-title reveal">Место, куда <em>хочется вернуться</em></h2>
+    <p class="cta-text reveal">Открытие — 2027. Alean Family Olivia 5*, Анапа. Уже сейчас мы собираем партнёров, идеи и события для первого сезона.</p>
+    <button class="btn reveal" onclick="go('partners')"><span>Стать партнёром</span></button>
+  </section>
+</div>
+
+<!-- ============ ПРОСТРАНСТВО ============ -->
+<div class="page" data-page="space">
+  <div class="hero-inner">
+    <div class="eyebrow">Архитектура · 6 зон · 400 м²</div>
+    <h1>Пространство <em>моря</em></h1>
+    <p class="lead">«Тихая бухта» — 400 квадратных метров, спроектированных как единый организм. Шесть зон перетекают друг в друга, и каждая работает на своё настроение.</p>
+  </div>
+
+  <section>
+    <span class="eyebrow reveal">Зоны</span>
+    <h2 class="title reveal">Шесть <em>пространств</em></h2>
+
+    <div class="zones">
+      <div class="zone reveal">
+        <div class="zone-num">01 — Вход</div>
+        <div class="zone-title">Погружение</div>
+        <div class="zone-desc">Атмосфера начинается сразу. Приглушённый свет, звук моря, аромат соли. Экран с живой картой событий: что сегодня, где, во сколько.</div>
+        <div class="zone-icon">🌊</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-num">02 — Центр</div>
+        <div class="zone-title">Арт-объект «Планета»</div>
+        <div class="zone-desc">Два дельфина держат планету. Свет реагирует на приближение. Вокруг — место для фото, встреч, импровизированных сцен.</div>
+        <div class="zone-icon">🐬</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-num">03 — Сцена</div>
+        <div class="zone-title">Трансформер</div>
+        <div class="zone-desc">Сцена, которая за 30 минут становится танцполом, кинозалом или лекторием. Оборудование: проектор, звук, свет — всё встроено.</div>
+        <div class="zone-icon">🎭</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-num">04 — Лаборатория</div>
+        <div class="zone-title">Интерактив</div>
+        <div class="zone-desc">Сенсорные экраны, VR, микроскопы. Днём — дети, вечером — взрослые. Форматы меняются каждую неделю.</div>
+        <div class="zone-icon">🔬</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-num">05 — Тишина</div>
+        <div class="zone-title">Скамейки у воды</div>
+        <div class="zone-desc">Полумрак. Мягкие скамейки. Шум воды. 15 минут покоя для родителей, пока дети заняты. Или для тех, кому просто нужно выдохнуть.</div>
+        <div class="zone-icon">🕯️</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-num">06 — Стена</div>
+        <div class="zone-title">Живая летопись</div>
+        <div class="zone-desc">Стена с историями, фотографиями, именами. Меняется каждый месяц: сегодня — фото учёного, завтра — рассказ гостя, послезавтра — арт-объект художника.</div>
+        <div class="zone-icon">📖</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow reveal">Технические возможности</span>
+    <h2 class="title reveal">Что можно <em>провести</em></h2>
+
+    <div class="numbers">
+      <div class="number-card reveal">
+        <div class="number-value">150</div>
+        <div class="number-label">гостей —<br>максимум стоя</div>
+      </div>
+      <div class="number-card reveal">
+        <div class="number-value">80</div>
+        <div class="number-label">гостей —<br>банкет</div>
+      </div>
+      <div class="number-card reveal">
+        <div class="number-value">40</div>
+        <div class="number-label">гостей —<br>лекция, кино</div>
+      </div>
+      <div class="number-card reveal">
+        <div class="number-value">30<small>мин</small></div>
+        <div class="number-label">трансформация<br>пространства</div>
+      </div>
+    </div>
+
+    <div class="zones" style="margin-top:60px;">
+      <div class="zone reveal">
+        <div class="zone-title">Звук и свет</div>
+        <div class="zone-desc">Проектор 4K, потолочные колонки, беспроводные микрофоны, программируемый свет 8 сцен. Всё управляется с одного планшета.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Трансформация</div>
+        <div class="zone-desc">Мобильные перегородки, подъёмная сцена, складная мебель. Утром — йога, вечером — банкет, завтра — пресс-конференция.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Климат-контроль</div>
+        <div class="zone-desc">Зимой — тёплые полы и камин. Летом — кондиционирование и открытые террасы. Работает в любой сезон.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Кейтеринг и бар</div>
+        <div class="zone-desc">Собственная кухня, барная стойка, зона дегустаций. Шеф-повар отеля разрабатывает меню под каждое событие.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Прямые трансляции</div>
+        <div class="zone-desc">Возможность стриминга в 4K. Камеры встроены в потолок. Идеально для гибридных событий, лекций, пресс-конференций.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Съёмки и фото</div>
+        <div class="zone-desc">Готовая локация для фотосессий, рекламы, съёмок. Естественный свет, морская палитра, десятки ракурсов.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2 class="cta-title reveal">Приехать и <em>посмотреть</em></h2>
+    <p class="cta-text reveal">Строительство завершится в 2027 году. Уже сейчас можно забронировать пространство под событие или съёмку на первый сезон.</p>
+    <button class="btn reveal" onclick="go('partners')"><span>Оставить заявку</span></button>
+  </section>
+</div>
+
+<!-- ============ СОБЫТИЯ ============ -->
+<div class="page" data-page="events">
+  <div class="hero-inner">
+    <div class="eyebrow">Календарь · сезон 2027</div>
+    <h1>Жизнь <em>каждый день</em></h1>
+    <p class="lead">Пространство работает круглый год. Каждый месяц — свой ритм, свои события, свои инфоповоды. Вот как выглядит первый год.</p>
+  </div>
+
+  <section>
+    <span class="eyebrow reveal">Календарь</span>
+    <h2 class="title reveal">Что происходит <em>в бухте</em></h2>
+
+    <div class="calendar">
+      <div class="cal-months reveal" id="calMonths">
+        <button class="cal-month active" data-month="jan">Январь</button>
+        <button class="cal-month" data-month="feb">Февраль</button>
+        <button class="cal-month" data-month="mar">Март</button>
+        <button class="cal-month" data-month="apr">Апрель</button>
+        <button class="cal-month" data-month="may">Май</button>
+        <button class="cal-month" data-month="jun">Июнь</button>
+        <button class="cal-month" data-month="jul">Июль</button>
+        <button class="cal-month" data-month="aug">Август</button>
+        <button class="cal-month" data-month="sep">Сентябрь</button>
+        <button class="cal-month" data-month="oct">Октябрь</button>
+        <button class="cal-month" data-month="nov">Ноябрь</button>
+        <button class="cal-month" data-month="dec">Декабрь</button>
+      </div>
+
+      <div class="cal-events" id="calEvents">
+        <!-- заполняется JS -->
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow reveal">Флагманские события</span>
+    <h2 class="title reveal">Поводы для <em>медиа</em></h2>
+
+    <div class="zones">
+      <div class="zone reveal">
+        <div class="zone-title">Зимний фестиваль света</div>
+        <div class="zone-desc">Декабрь–январь. Пространство превращается в световую инсталляцию. Художники со всей России создают работы о море и зиме. Идеальный инфоповод для lifestyle-медиа.</div>
+        <div class="zone-icon">✨</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Резиденция художников</div>
+        <div class="zone-desc">Февраль–март. Приглашённые художники живут и работают в отеле месяц. Итог — выставка и работы, которые остаются в пространстве. Медиа любят такие истории.</div>
+        <div class="zone-icon">🎨</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Открытие сезона</div>
+        <div class="zone-desc">Апрель. Большое событие с пресс-конференцией, презентацией программы, участием партнёров. Первый большой инфоповод года.</div>
+        <div class="zone-icon">🌊</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Морской кинофестиваль</div>
+        <div class="zone-desc">Июль. Документальное кино о море, природе, людях. Показы, обсуждения, гости-режиссёры. Ежегодное событие, которое ждут.</div>
+        <div class="zone-icon">🎬</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Ночь тишины</div>
+        <div class="zone-desc">Сентябрь. Один вечер, когда пространство работает без музыки и слов. Только звуки моря, свет, тишина. Формат для медиа и соцсетей — «самое тихое место в России».</div>
+        <div class="zone-icon">🌙</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Осенний гастроуикенд</div>
+        <div class="zone-desc">Октябрь. Ужины от шефов, дегустации локальных продуктов, винные вечера. Коллаборации с ресторанами и винодельнями Краснодарского края.</div>
+        <div class="zone-icon">🍷</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2 class="cta-title reveal">Провести <em>своё событие</em></h2>
+    <p class="cta-text reveal">Пространство доступно для аренды под частные, корпоративные и медийные события. Мы берём на себя технику, кейтеринг и продакшн.</p>
+    <button class="btn reveal" onclick="go('partners')"><span>Обсудить событие</span></button>
+  </section>
+</div>
+
+<!-- ============ МЕДИА ============ -->
+<div class="page" data-page="media">
+  <div class="hero-inner">
+    <div class="eyebrow">Пресс-центр</div>
+    <h1>Почему сюда <em>приедут</em></h1>
+    <p class="lead">«Тихая бухта» — не просто локация. Это точка притяжения для СМИ, блогеров и брендов. Мы создаём инфоповоды круглый год, а не раз в сезон.</p>
+  </div>
+
+  <section>
+    <span class="eyebrow reveal">Медиа-потенциал</span>
+    <h2 class="title reveal">Цифры, которые <em>работают</em></h2>
+
+    <div class="media-stats">
+      <div class="media-stat reveal"><div class="media-stat-num">50+</div><div class="media-stat-label">инфоповодов<br>в год</div></div>
+      <div class="media-stat reveal"><div class="media-stat-num">12</div><div class="media-stat-label">флагманских<br>событий</div></div>
+      <div class="media-stat reveal"><div class="media-stat-num">365</div><div class="media-stat-label">дней доступности<br>для съёмок</div></div>
+      <div class="media-stat reveal"><div class="media-stat-num">∞</div><div class="media-stat-label">контента<br>для соцсетей</div></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow reveal">Инфоповоды</span>
+    <h2 class="title reveal">О чём будут <em>писать</em></h2>
+
+    <div class="zones">
+      <div class="zone reveal">
+        <div class="zone-title">Первое в России</div>
+        <div class="zone-desc">Трансформируемое пространство в курортном отеле. Аналогов нет ни у одной гостиничной сети страны. Уникальность сама по себе — инфоповод.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Резиденции и коллаборации</div>
+        <div class="zone-desc">Художники, музыканты, шефы, учёные живут и работают в отеле. Каждая резиденция — минимум 3 публикации.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Фестивали и события</div>
+        <div class="zone-desc">Кинофестиваль, зимний фестиваль света, гастроуикенды. Каждое — повод для репортажа, интервью, рейтинга.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Архитектура и дизайн</div>
+        <div class="zone-desc">Сам проект — объект для профильных медиа: архитектура, дизайн, гостеприимство, урбанистика. Интервью с архитектором и дизайнером.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Истории гостей</div>
+        <div class="zone-desc">Свадьба, предложение руки и сердца, день рождения, встреча выпускников. Каждая — готовая история для lifestyle-медиа.</div>
+      </div>
+      <div class="zone reveal">
+        <div class="zone-title">Социальная миссия</div>
+        <div class="zone-desc">Партнёрство с фондом «Чистые моря», поддержка исследований. ESG-повестка, интересная деловым СМИ.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow reveal">Скачать</span>
+    <h2 class="title reveal">Пресс-<em>кит</em></h2>
+
+    <div class="press-kit">
+      <div class="press-item reveal">
+        <div class="press-icon">📄</div>
+        <div class="press-title">Пресс-релиз</div>
+        <div class="press-desc">Официальный релиз проекта: концепция, цифры, сроки, контакты для прессы.</div>
+        <a class="press-download" href="#">Скачать PDF →</a>
+      </div>
+      <div class="press-item reveal">
+        <div class="press-icon">🖼️</div>
+        <div class="press-title">Рендеры и фото</div>
+        <div class="press-desc">Визуализации пространства, фотографии локации, изображения для публикаций.</div>
+        <a class="press-download" href="#">Открыть →</a>
+      </div>
+      <div class="press-item reveal">
+        <div class="press-icon">📊</div>
+        <div class="press-title">Факт-лист</div>
+        <div class="press-desc">Ключевые цифры: площади, вместимость, форматы, календарь событий.</div>
+        <a class="press-download" href="#">Скачать →</a>
+      </div>
+      <div class="press-item reveal">
+        <div class="press-icon">🎬</div>
+        <div class="press-title">Видео-материалы</div>
+        <div class="press-desc">Аэросъёмка локации, интервью с командой, timelapse трансформации пространства.</div>
+        <a class="press-download" href="#">Смотреть →</a>
+      </div>
+      <div class="press-item reveal">
+        <div class="press-icon">🎨</div>
+        <div class="press-title">Айдентика</div>
+        <div class="press-desc">Логотип, палитра, шрифты, шаблоны для оформления статей и постов.</div>
+        <a class="press-download" href="#">Скачать →</a>
+      </div>
+      <div class="press-item reveal">
+        <div class="press-icon">📞</div>
+        <div class="press-title">Контакты для прессы</div>
+        <div class="press-desc">Альбина Бикчурина, начальник отдела по связям с общественностью Alean Collection.</div>
+        <a class="press-download" href="mailto:press@aleancollection.ru">Написать →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2 class="cta-title reveal">Приехать на <em>съёмку</em></h2>
+    <p class="cta-text reveal">Пространство доступно для съёмок круглый год. Организуем доступ, свет, звук, локации. Аккредитация для СМИ — в течение 3 дней.</p>
+    <button class="btn reveal" onclick="go('contact')"><span>Запросить аккредитацию</span></button>
+  </section>
+</div>
+
+<!-- ============ ПАРТНЁРАМ ============ -->
+<div class="page" data-page="partners">
+  <div class="hero-inner">
+    <div class="eyebrow">Аренда · коллаборации · резиденции</div>
+    <h1>Стать <em>частью</em></h1>
+    <p class="lead">«Тихая бухта» открыта для партнёрств. Мы предоставляем пространство, технику и аудиторию. Вы приносите событие, продукт или идею.</p>
+  </div>
+
+  <section>
+    <span class="eyebrow reveal">Форматы сотрудничества</span>
+    <h2 class="title reveal">Как с нами <em>работать</em></h2>
+
+    <div class="partners-grid">
+      <div class="partner-card reveal">
+        <div class="partner-num">01 — Аренда</div>
+        <div class="partner-title">Пространство под событие</div>
+        <div class="partner-desc">Частное или корпоративное событие: свадьба, день рождения, презентация, конференция, корпоратив. Полный продакшн — на нас.</div>
+        <ul class="partner-details">
+          <li>До 150 гостей</li>
+          <li>Трансформация под сценарий</li>
+          <li>Кейтеринг и бар</li>
+          <li>Техника и продакшн включены</li>
+          <li>Пакеты от 3 часов до полного дня</li>
+        </ul>
+      </div>
+
+      <div class="partner-card reveal">
+        <div class="partner-num">02 — Коллаборация</div>
+        <div class="partner-title">Совместное событие</div>
+        <div class="partner-desc">Бренды, медиа, культурные институции. Мы даём площадку и аудиторию, вы — контент и экспертизу. Расходы и выгоды — пополам.</div>
+        <ul class="partner-details">
+          <li>Совместные лекции и кинопоказы</li>
+          <li>Запуск продуктов и коллекций</li>
+          <li>Поп-ап маркеты и витрины</li>
+          <li>Медиа-проекты и съёмки</li>
+        </ul>
+      </div>
+
+      <div class="partner-card reveal">
+        <div class="partner-num">03 — Резиденция</div>
+        <div class="partner-title">Жить и работать у моря</div>
+        <div class="partner-desc">Приглашаем художников, фотографов, музыкантов, писателей, учёных. Месяц проживания в отеле + пространство для работы. Итог — событие или объект.</div>
+        <ul class="partner-details">
+          <li>Проживание и питание — за наш счёт</li>
+          <li>Мастерская и сцена — в вашем распоряжении</li>
+          <li>Финал — выставка, концерт или публикация</li>
+          <li>Работа остаётся в отеле или в архиве проекта</li>
+        </ul>
+      </div>
+
+      <div class="partner-card reveal">
+        <div class="partner-num">04 — Меценатство</div>
+        <div class="partner-title">Поддержать проект</div>
+        <div class="partner-desc">Для компаний и частных лиц, которые хотят поддержать культурную и социальную миссию «Тихой бухты». Именное участие в проекте.</div>
+        <ul class="partner-details">
+          <li>Именная поддержка событий</li>
+          <li>Упоминание в медиа-материалах</li>
+          <li>Логотип на площадке и в пресс-ките</li>
+          <li>Приглашения на закрытые премьеры</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow reveal">Заявка</span>
+    <h2 class="title reveal">Обсудить <em>партнёрство</em></h2>
+
+    <form class="form reveal" onsubmit="event.preventDefault(); alert('Спасибо! Мы свяжемся с вами в течение 3 дней.'); this.reset();">
+      <div class="form-grid">
+        <div class="form-row">
+          <label class="form-label">Имя</label>
+          <input type="text" required placeholder="Как к вам обращаться">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Компания / проект</label>
+          <input type="text" placeholder="Название">
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-row">
+          <label class="form-label">Email</label>
+          <input type="email" required placeholder="you@example.com">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Телефон</label>
+          <input type="tel" placeholder="+7 (___) ___-__-__">
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Формат сотрудничества</label>
+        <select required>
+          <option value="">Выберите</option>
+          <option>Аренда под событие</option>
+          <option>Коллаборация</option>
+          <option>Резиденция</option>
+          <option>Меценатство</option>
+          <option>Медиа-съёмка</option>
+          <option>Другое</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Расскажите о задаче</label>
+        <textarea placeholder="Коротко о том, что хотите сделать"></textarea>
+      </div>
+      <button type="submit" class="btn solid"><span>Отправить заявку</span></button>
+    </form>
+  </section>
+</div>
+
+<!-- ============ КОНТАКТЫ ============ -->
+<div class="page" data-page="contact">
+  <div class="hero-inner">
+    <div class="eyebrow">Связаться</div>
+    <h1>Давайте <em>поговорим</em></h1>
+    <p class="lead">Мы открыты для гостей, партнёров, журналистов и всех, кому интересен проект. Выберите удобный способ — или оставьте заявку, и мы сами свяжемся.</p>
+  </div>
+
+  <section>
+    <span class="eyebrow reveal">Контакты</span>
+    <h2 class="title reveal">Куда <em>написать</em></h2>
+
+    <div class="partners-grid">
+      <div class="partner-card reveal">
+        <div class="partner-num">Общее</div>
+        <div class="partner-title">По вопросам проекта</div>
+        <div class="partner-desc">Alean Collection, головной офис в Сочи.</div>
+        <ul class="partner-details">
+          <li>hello@tihayabuhta.ru</li>
+          <li>+7 (800) 000-00-00</li>
+          <li>Пн–Пт, 10:00–19:00 МСК</li>
+        </ul>
+      </div>
+
+      <div class="partner-card reveal">
+        <div class="partner-num">Пресса</div>
+        <div class="partner-title">Для СМИ и блогеров</div>
+        <div class="partner-desc">Аккредитация, интервью, съёмки, пресс-кит.</div>
+        <ul class="partner-details">
+          <li>press@tihayabuhta.ru</li>
+          <li>Альбина Бикчурина</li>
+          <li>Начальник отдела по связям с общественностью</li>
+        </ul>
+      </div>
+
+      <div class="partner-card reveal">
+        <div class="partner-num">Партнёры</div>
+        <div class="partner-title">Аренда и коллаборации</div>
+        <div class="partner-desc">События, резиденции, бренд-проекты.</div>
+        <ul class="partner-details">
+          <li>partners@tihayabuhta.ru</li>
+          <li>+7 (800) 000-00-01</li>
+          <li>Отдел маркетинга и партнёрств</li>
+        </ul>
+      </div>
+
+      <div class="partner-card reveal">
+        <div class="partner-num">Гостям</div>
+        <div class="partner-title">Бронирование</div>
+        <div class="partner-desc">Отдых в Alean Family Olivia 5* с 2027 года.</div>
+        <ul class="partner-details">
+          <li>booking@aleancollection.ru</li>
+          <li>+7 (800) 000-00-02</li>
+          <li>Круглосуточно</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow reveal">Форма</span>
+    <h2 class="title reveal">Оставить <em>заявку</em></h2>
+
+    <form class="form reveal" onsubmit="event.preventDefault(); alert('Спасибо! Мы свяжемся с вами в течение 3 дней.'); this.reset();">
+      <div class="form-grid">
+        <div class="form-row">
+          <label class="form-label">Имя</label>
+          <input type="text" required placeholder="Как к вам обращаться">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Email</label>
+          <input type="email" required placeholder="you@example.com">
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Тема обращения</label>
+        <select required>
+          <option value="">Выберите</option>
+          <option>Забронировать отдых</option>
+          <option>Аренда пространства</option>
+          <option>Коллаборация / партнёрство</option>
+          <option>Пресса / съёмка</option>
+          <option>Резиденция</option>
+          <option>Другое</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Сообщение</label>
+        <textarea placeholder="Расскажите, чем можем помочь"></textarea>
+      </div>
+      <button type="submit" class="btn solid"><span>Отправить</span></button>
+    </form>
+  </section>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-quote">«Одно пространство. Сто сценариев».</div>
+      <div class="footer-brand">Тихая бухта</div>
+      <div>Alean Collection · Alean Family Olivia 5* · Анапа · 2027</div>
+    </div>
+    <div class="footer-col">
+      <h4>Проект</h4>
+      <a onclick="go('home')">Главная</a>
+      <a onclick="go('space')">Пространство</a>
+      <a onclick="go('events')">События</a>
+      <a onclick="go('media')">Медиа</a>
+    </div>
+    <div class="footer-col">
+      <h4>Сотрудничество</h4>
+      <a onclick="go('partners')">Партнёрам</a>
+      <a onclick="go('contact')">Контакты</a>
+      <a onclick="go('media')">Пресс-кит</a>
+      <a onclick="go('partners')">Резиденции</a>
+    </div>
+    <div class="footer-col">
+      <h4>Связь</h4>
+      <a href="mailto:hello@tihayabuhta.ru">hello@tihayabuhta.ru</a>
+      <a href="mailto:press@tihayabuhta.ru">press@tihayabuhta.ru</a>
+      <a href="#">Телеграм-канал</a>
+      <a href="#">ВКонтакте</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2027 Alean Collection · Все права защищены · Проект пространства «Тихая бухта»
+  </div>
+</footer>
+
+<script>
+  /* === ЧАСТИЦЫ === */
+  const particlesEl = document.getElementById('particles');
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.bottom = '-10px';
+    p.style.animationDuration = (12 + Math.random() * 18) + 's';
+    p.style.animationDelay = Math.random() * 15 + 's';
+    const size = 1 + Math.random() * 3;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.opacity = 0.3 + Math.random() * 0.5;
+    particlesEl.appendChild(p);
+  }
+
+  /* === РОУТИНГ === */
+  function go(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.querySelector(`.page[data-page="${page}"]`);
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.toggle('active', a.dataset.page === page);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(initReveals, 100);
+    history.replaceState(null, '', '#' + page);
+  }
+  window.go = go;
+
+  /* === REVEAL === */
+  let observer;
+  function initReveals() {
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.page.active .reveal').forEach(el => observer.observe(el));
+  }
+
+  /* === ПРОГРЕСС + NAV === */
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    document.querySelector('.scroll-progress').style.width = (scrolled / total * 100) + '%';
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 100);
+  });
+
+  /* === КАЛЕНДАРЬ === */
+  const calEvents = {
+    jan: [
+      { date: '3 — 15 января', title: 'Зимний фестиваль света', desc: 'Световые инсталляции о море и зиме. Работы 8 художников со всей России.', tag: 'Фестиваль' },
+      { date: '25 января', title: 'Лекция «Море зимой»', desc: 'Океанолог о том, что происходит в Чёрном море, когда все уезжают.', tag: 'Лекция' }
+    ],
+    feb: [
+      { date: '5 февраля', title: 'Открытие резиденции художников', desc: 'Три художника приезжают работать в отеле на месяц.', tag: 'Резиденция' },
+      { date: '14 февраля', title: 'Ужин для двоих', desc: 'Специальное меню и живая музыка у воды.', tag: 'Гастро' },
+      { date: '22 февраля', title: 'Кинопоказ «Дыхание моря»', desc: 'Документальный фильм и обсуждение с режиссёром.', tag: 'Кино' }
+    ],
+    mar: [
+      { date: '8 марта', title: 'Женский день в бухте', desc: 'Йога, спа-ритуалы, гастроужин и концерт.', tag: 'Событие' },
+      { date: '15 марта', title: 'Открытие выставки резидентов', desc: 'Итог месячной резиденции: работы художников остаются в отеле.', tag: 'Выставка' },
+      { date: '28 марта', title: 'Театральный вечер', desc: 'Камерный спектакль на 40 гостей.', tag: 'Театр' }
+    ],
+    apr: [
+      { date: '1 апреля', title: 'Открытие сезона 2027', desc: 'Главное событие: пресс-конференция, презентация программы, гости.', tag: 'Флагман' },
+      { date: '12 апреля', title: 'Лекция «Дельфины Чёрного моря»', desc: 'Учёный ИПЭЭ РАН о том, что мы знаем и что ещё предстоит узнать.', tag: 'Лекция' },
+      { date: '20 апреля', title: 'Гастроужин с шефом', desc: 'Ужин из локальных продуктов с участием приглашённого шефа.', tag: 'Гастро' }
+    ],
+    may: [
+      { date: '1 — 10 мая', title: 'Майские праздники', desc: 'Ежедневная программа: йога, детские квесты, концерты, кинопоказы.', tag: 'Программа' },
+      { date: '15 мая', title: 'Первый концерт у моря', desc: 'Акустический концерт на открытой террасе.', tag: 'Музыка' },
+      { date: '28 мая', title: 'Детский научный фестиваль', desc: 'Мастер-классы, опыты, шоу для детей 5–14 лет.', tag: 'Дети' }
+    ],
+    jun: [
+      { date: '1 июня', title: 'День защиты детей', desc: 'Большая программа: квесты, шоу, подарки.', tag: 'Дети' },
+      { date: '12 июня', title: 'День России', desc: 'Концерт, гастроужин, кинопоказ о стране.', tag: 'Событие' },
+      { date: '22 июня', title: 'Ночь памяти', desc: 'Камерный вечер памяти. Тишина, свет, документы.', tag: 'Памятное' }
+    ],
+    jul: [
+      { date: '5 — 12 июля', title: 'Морской кинофестиваль', desc: 'Документальное кино о море, природе и людях. Гости-режиссёры.', tag: 'Флагман' },
+      { date: '20 июля', title: 'Свадебный уикенд', desc: 'Два дня свадебных церемоний у моря. Открытая регистрация.', tag: 'Свадьбы' },
+      { date: '28 июля', title: 'День Нептуна', desc: 'Семейный праздник у бассейна и на террасе.', tag: 'Дети' }
+    ],
+    aug: [
+      { date: '1 — 15 августа', title: 'Пик сезона', desc: 'Ежедневная программа: утренняя йога, детские квесты, вечерние кинопоказы.', tag: 'Программа' },
+      { date: '20 августа', title: 'Гастрофестиваль', desc: 'Ужины от 5 шефов, дегустации, винные пары.', tag: 'Гастро' },
+      { date: '30 августа', title: 'Закрытие летнего сезона', desc: 'Большой концерт и финальный кинопоказ под открытым небом.', tag: 'Событие' }
+    ],
+    sep: [
+      { date: '1 сентября', title: 'День знаний', desc: 'Детская программа, научное шоу, подарки школьникам.', tag: 'Дети' },
+      { date: '15 сентября', title: 'Ночь тишины', desc: 'Один вечер без музыки и слов. Только море, свет и тишина.', tag: 'Флагман' },
+      { date: '28 сентября', title: 'Осенний джаз', desc: 'Вечер джаза на террасе с видом на море.', tag: 'Музыка' }
+    ],
+    oct: [
+      { date: '5 — 12 октября', title: 'Гастроуикенд', desc: 'Ужины от шефов, дегустации локальных продуктов и вин.', tag: 'Флагман' },
+      { date: '20 октября', title: 'Лекция «Море и климат»', desc: 'Климатолог о том, как меняется Чёрное море.', tag: 'Лекция' },
+      { date: '31 октября', title: 'Хэллоуин для детей', desc: 'Костюмированный квест в лаборатории.', tag: 'Дети' }
+    ],
+    nov: [
+      { date: '4 ноября', title: 'День народного единства', desc: 'Концерт и гастроужин с региональными блюдами.', tag: 'Событие' },
+      { date: '15 ноября', title: 'Открытие зимней резиденции', desc: 'Художники и писатели приезжают работать в бухте на зиму.', tag: 'Резиденция' },
+      { date: '25 ноября', title: 'Кинопоказ «Зимнее море»', desc: 'Документальный фильм и встреча с автором.', tag: 'Кино' }
+    ],
+    dec: [
+      { date: '1 декабря', title: 'Запуск зимнего фестиваля света', desc: 'Пространство превращается в световую инсталляцию.', tag: 'Флагман' },
+      { date: '20 декабря', title: 'Новогодний гастроужин', desc: 'Праздничное меню от шефа, живая музыка.', tag: 'Гастро' },
+      { date: '31 декабря', title: 'Новогодняя ночь', desc: 'Большая программа: ужин, концерт, кинопоказ, встреча рассвета.', tag: 'Событие' }
+    ]
+  };
+
+  function renderCalMonth(month) {
+    const events = calEvents[month] || [];
+    const container = document.getElementById('calEvents');
+    if (!container) return;
+    container.innerHTML = events.map(e => `
+      <div class="cal-event">
+        <div class="cal-event-date">${e.date}</div>
+        <div class="cal-event-title">${e.title}</div>
+        <div class="cal-event-desc">${e.desc}</div>
+        <div class="cal-event-tag">${e.tag}</div>
+      </div>
+    `).join('');
+  }
+
+  document.querySelectorAll('.cal-month').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cal-month').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderCalMonth(btn.dataset.month);
+    });
+  });
+
+  /* === СТАРТ === */
+  window.addEventListener('load', () => {
+    initReveals();
+    renderCalMonth('jan');
+    const hash = window.location.hash.replace('#', '') || 'home';
+    if (hash !== 'home') go(hash);
+  });
+  window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.replace('#', '') || 'home';
+    go(hash);
+  });
+</script>
+
+</body>
+</html>
