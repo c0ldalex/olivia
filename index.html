@@ -16,7 +16,7 @@
 
     <!-- БАННЕР ТЕСТОВОЙ ВЕРСИИ -->
     <div class="test-badge">
-        <span class="dot-pulse"></span> TEST BUILD v0.9.4 (PRE-ALPHA)
+        <span class="dot-pulse"></span> TEST BUILD v0.9.4
     </div>
 
     <div class="ocean-bg"></div>
@@ -39,13 +39,13 @@
             <a href="#schedule">Расписание</a>
             <a href="#zones">Пространство</a>
             <a href="#economics">Экономика</a>
-            <a href="#partners" class="btn-outline">Стать партнером</a>
+            <a href="#" class="btn-outline" id="loginTrigger">Войти в систему</a>
         </nav>
     </header>
 
     <!-- ================= MAIN ================= -->
     <main>
-        <!-- HERO SECTION -->
+        <!-- HERO -->
         <section class="hero" id="home">
             <div class="hero-content">
                 <span class="eyebrow">Alean Family Olivia 5* · Анапа · 2027</span>
@@ -54,7 +54,6 @@
                     Первое в России иммерсивное пространство, где наука встречает тишину. 
                     Площадка для событий, точка притяжения для гостей и генератор инфоповодов для СМИ.
                 </p>
-                
                 <div class="hero-actions">
                     <a href="#zones" class="btn-primary">Исследовать</a>
                     <a href="#partners" class="btn-secondary">Скачать презентацию</a>
@@ -77,76 +76,51 @@
             </div>
         </section>
 
-        <!-- ТРИ ОПОРЫ ПРОЕКТА -->
+        <!-- ТРИ ОПОРЫ -->
         <section class="features-section" id="features">
             <div class="section-header">
                 <span class="eyebrow">Экосистема</span>
                 <h2 class="section-title">Три опоры <em>проекта</em></h2>
                 <p class="section-desc">Пространство создается на стыке трех интересов: эмоций гостей, реальной науки и медийного потенциала.</p>
             </div>
-
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                    </div>
+                    <div class="feature-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
                     <h3 class="feature-title">Для гостя</h3>
-                    <p class="feature-text">Интерактив, VR и квесты для детей. Родители отдыхают в зоне тишины. Взрослые слушают лекции. Каждый находит свое впечатление.</p>
+                    <p class="feature-text">Интерактив, VR и квесты для детей. Родители отдыхают в зоне тишины. Взрослые слушают лекции.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                    </div>
+                    <div class="feature-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
                     <h3 class="feature-title">Для науки и ESG</h3>
-                    <p class="feature-text">Мы внедряем Citizen Science. Гости через планшеты помогают ученым ИПЭЭ РАН классифицировать данные о дельфинах.</p>
+                    <p class="feature-text">Мы внедряем Citizen Science. Гости помогают ученым ИПЭЭ РАН классифицировать данные о дельфинах.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                    </div>
+                    <div class="feature-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>
                     <h3 class="feature-title">Для медиа и PR</h3>
-                    <p class="feature-text">50+ инфоповодов в год. Пресс-конференции, резиденции художников, кинопоказы. Реклама, которую не купить за деньги.</p>
+                    <p class="feature-text">50+ инфоповодов в год. Пресс-конференции, резиденции художников, кинопоказы.</p>
                 </div>
             </div>
         </section>
 
-        <!-- ИНТЕРАКТИВНОЕ РАСПИСАНИЕ -->
+        <!-- РАСПИСАНИЕ -->
         <section class="schedule-section" id="schedule">
             <div class="section-header">
                 <span class="eyebrow">Жизнь в бухте</span>
                 <h2 class="section-title">Один день. <em>Четыре состояния.</em></h2>
-                <p class="section-desc">Пространство меняет свой ритм вместе с вами. Нажмите на время суток, чтобы узнать, что здесь происходит.</p>
+                <p class="section-desc">Нажмите на время суток, чтобы узнать, что здесь происходит.</p>
             </div>
-
             <div class="schedule-container">
                 <div class="schedule-tabs">
-                    <button class="schedule-tab active" data-time="morning">Утро (07:00–12:00)</button>
-                    <button class="schedule-tab" data-time="day">День (12:00–18:00)</button>
-                    <button class="schedule-tab" data-time="evening">Вечер (18:00–23:00)</button>
-                    <button class="schedule-tab" data-time="night">Ночь (23:00–07:00)</button>
+                    <button class="schedule-tab active" data-time="morning">Утро</button>
+                    <button class="schedule-tab" data-time="day">День</button>
+                    <button class="schedule-tab" data-time="evening">Вечер</button>
+                    <button class="schedule-tab" data-time="night">Ночь</button>
                 </div>
-
                 <div class="schedule-content">
-                    <div class="schedule-panel active" id="morning">
-                        <div class="schedule-icon">🌅</div>
-                        <h3 class="schedule-title">Йога и тишина</h3>
-                        <p class="schedule-text">Пока дети спят, взрослые занимаются йогой у воды. В зоне тишины играет медитативная музыка. Лаборатория закрыта, здесь царит покой и аромат свежего кофе.</p>
-                    </div>
-                    <div class="schedule-panel" id="day">
-                        <div class="schedule-icon">☀️</div>
-                        <h3 class="schedule-title">Наука и игры</h3>
-                        <p class="schedule-text">Пик активности. В Лаборатории проходят научные шоу и VR-квесты для детей. Родители отдыхают на пуфах. Сцена работает как лекторий.</p>
-                    </div>
-                    <div class="schedule-panel" id="evening">
-                        <div class="schedule-icon">🌇</div>
-                        <h3 class="schedule-title">Кино и встречи</h3>
-                        <p class="schedule-text">Сцена-трансформер превращается в кинозал. Показ документального кино о море, обсуждение с режиссером или лекция ученого. Бар открывает дегустации.</p>
-                    </div>
-                    <div class="schedule-panel" id="night">
-                        <div class="schedule-icon">🌙</div>
-                        <h3 class="schedule-title">Свадьбы и события</h3>
-                        <p class="schedule-text">Пространство доступно для аренды. Звучит живая музыка, проходят банкеты и закрытые вечеринки. Свет становится приглушенным и атмосферным.</p>
-                    </div>
+                    <div class="schedule-panel active" id="morning"><div class="schedule-icon">🌅</div><h3 class="schedule-title">Йога и тишина</h3><p class="schedule-text">Взрослые занимаются йогой у воды. В зоне тишины играет медитативная музыка. Покой и аромат свежего кофе.</p></div>
+                    <div class="schedule-panel" id="day"><div class="schedule-icon">☀️</div><h3 class="schedule-title">Наука и игры</h3><p class="schedule-text">В Лаборатории проходят научные шоу и VR-квесты для детей. Родители отдыхают. Сцена работает как лекторий.</p></div>
+                    <div class="schedule-panel" id="evening"><div class="schedule-icon">🌇</div><h3 class="schedule-title">Кино и встречи</h3><p class="schedule-text">Сцена превращается в кинозал. Показ документального кино о море, обсуждение с режиссером. Бар открывает дегустации.</p></div>
+                    <div class="schedule-panel" id="night"><div class="schedule-icon">🌙</div><h3 class="schedule-title">Свадьбы и события</h3><p class="schedule-text">Пространство доступно для аренды. Живая музыка, банкеты и закрытые вечеринки. Приглушенный свет.</p></div>
                 </div>
             </div>
         </section>
@@ -154,7 +128,7 @@
         <!-- МАНИФЕСТ -->
         <section class="manifesto">
             <div class="manifesto-content">
-                <p>«Это не музей. Это <span>сцена</span>, которая меняется каждый день: утром — йога у воды, днём — детский квест, вечером — кинопоказ, а завтра — пресс-конференция или свадьба».</p>
+                <p>«Это не музей. Это <span>сцена</span>, которая меняется каждый день: утром — йога, днём — детский квест, вечером — кинопоказ, а завтра — пресс-конференция».</p>
             </div>
         </section>
 
@@ -164,7 +138,6 @@
                 <span class="eyebrow">Архитектура</span>
                 <h2 class="section-title">Шесть зон. <em>Один маршрут.</em></h2>
             </div>
-
             <div class="zones-grid">
                 <div class="zone-card"><div class="zone-num">01</div><h3 class="zone-name">Погружение</h3><p class="zone-desc">Приглушённый свет, звук моря, аромат соли. Живая карта экспедиций.</p></div>
                 <div class="zone-card"><div class="zone-num">02</div><h3 class="zone-name">Дельфины</h3><p class="zone-desc">Арт-объект с символами Alean и Фонда. Жетоны идут в фонд.</p></div>
@@ -181,7 +154,6 @@
                 <span class="eyebrow">Экономика</span>
                 <h2 class="section-title">Инвестиции и <em>окупаемость</em></h2>
             </div>
-
             <div class="econ-layout">
                 <div class="econ-table-wrapper">
                     <div class="econ-row"><span class="econ-label">CAPEX (Запуск)</span><span class="econ-value">37,4 млн ₽</span></div>
@@ -196,7 +168,7 @@
             </div>
         </section>
 
-        <!-- CTA / PARTNERS -->
+        <!-- CTA -->
         <section class="cta-section" id="partners">
             <div class="cta-content">
                 <h2 class="cta-title">Место, куда <em>хочется вернуться</em></h2>
@@ -220,8 +192,8 @@
                 <a href="#zones">Пространство</a>
             </div>
             <div class="footer-links-col">
-                <h4>Для разработчиков</h4>
-                <a href="#" class="admin-trigger" id="adminTrigger">Открыть Админ-Панель (Dev)</a>
+                <h4>Для команды</h4>
+                <a href="#" class="admin-trigger" id="adminTriggerFooter">Вход в систему</a>
                 <a href="#">GitHub Repository</a>
             </div>
         </div>
@@ -231,59 +203,178 @@
         </div>
     </footer>
 
-    <!-- ================= СКРЫТАЯ АДМИН-ПАНЕЛЬ ================= -->
-    <div class="admin-overlay" id="adminPanel">
-        <div class="admin-dashboard">
-            <div class="admin-header">
-                <div class="admin-title">
-                    <span class="dot-pulse"></span> Dashboard: Silent Bay
+    <!-- ================= МОДАЛКА АВТОРИЗАЦИИ ================= -->
+    <div class="auth-overlay" id="authModal">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="46" stroke="#c9a96e" stroke-width="1.5" fill="none"/>
+                        <path d="M28 50 C 40 38, 55 34, 68 38 C 72 39, 75 42, 78 44 C 76 48, 72 50, 66 50 C 69 54, 70 60, 68 64 C 62 60, 54 58, 46 58 C 38 58, 32 55, 28 50 Z" fill="#c9a96e"/>
+                    </svg>
                 </div>
-                <button class="admin-close" id="adminClose">✕</button>
-            </div>
-            
-            <div class="admin-stats-grid">
-                <div class="admin-stat-card">
-                    <div class="admin-stat-label">Live Visitors</div>
-                    <div class="admin-stat-value">1,248</div>
-                    <div class="admin-stat-trend up">↑ 12%</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="admin-stat-label">Booking Conversion</div>
-                    <div class="admin-stat-value">4.8%</div>
-                    <div class="admin-stat-trend up">↑ 0.4%</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="admin-stat-label">Projected ROI</div>
-                    <div class="admin-stat-value">142%</div>
-                    <div class="admin-stat-trend up">↑ 8%</div>
-                </div>
+                <h2 class="auth-title">Вход в систему</h2>
+                <p class="auth-subtitle">Панель управления проектом «Тихая бухта»</p>
+                <div class="auth-test-tag">⚠ Test Environment</div>
             </div>
 
-            <div class="admin-charts-area">
-                <div class="admin-chart-box">
-                    <div class="admin-chart-title">Traffic by Zone (Live)</div>
-                    <div class="bar-chart">
-                        <div class="bar-item"><div class="bar-fill" style="width: 80%;"><span>80%</span></div><div class="bar-label">Лаборатория</div></div>
-                        <div class="bar-item"><div class="bar-fill" style="width: 65%;"><span>65%</span></div><div class="bar-label">Сцена</div></div>
-                        <div class="bar-item"><div class="bar-fill" style="width: 40%;"><span>40%</span></div><div class="bar-label">Тишина</div></div>
+            <form class="auth-form" id="loginForm">
+                <div class="auth-field">
+                    <label>Логин</label>
+                    <input type="text" id="loginUsername" placeholder="demo" autocomplete="off">
+                </div>
+                <div class="auth-field">
+                    <label>Пароль</label>
+                    <input type="password" id="loginPassword" placeholder="••••••">
+                </div>
+                <div class="auth-hint">Подсказка: <strong>demo</strong> / <strong>demo</strong></div>
+                <button type="submit" class="auth-submit">Войти</button>
+                <div class="auth-error" id="authError">Неверный логин или пароль</div>
+            </form>
+
+            <button class="auth-close" id="authClose">✕</button>
+        </div>
+    </div>
+
+    <!-- ================= АДМИН-ПАНЕЛЬ (DASHBOARD) ================= -->
+    <div class="dashboard-overlay" id="dashboardPanel">
+        <div class="dashboard">
+            
+            <!-- Сайдбар -->
+            <aside class="dash-sidebar">
+                <div class="dash-brand">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="46" stroke="#c9a96e" stroke-width="1.5" fill="none"/>
+                        <path d="M28 50 C 40 38, 55 34, 68 38 C 72 39, 75 42, 78 44 C 76 48, 72 50, 66 50 C 69 54, 70 60, 68 64 C 62 60, 54 58, 46 58 C 38 58, 32 55, 28 50 Z" fill="#c9a96e"/>
+                    </svg>
+                    <div>
+                        <div class="dash-brand-name">Тихая бухта</div>
+                        <div class="dash-brand-sub">Admin Panel</div>
                     </div>
                 </div>
-                
-                <div class="admin-chart-box">
-                    <div class="admin-chart-title">Live Activity Feed</div>
-                    <ul class="activity-feed" id="activityFeed">
-                        <li><span>10:42</span> User from Moscow viewed "Dolphins" zone</li>
-                        <li><span>10:41</span> New Partner Inquiry received</li>
-                        <li><span>10:38</span> VR Module #2 initialized successfully</li>
-                        <li><span>10:35</span> System Check: All endpoints ONLINE</li>
-                    </ul>
+
+                <nav class="dash-nav">
+                    <a class="dash-nav-item active"><span class="dash-nav-icon">◈</span> Обзор</a>
+                    <a class="dash-nav-item"><span class="dash-nav-icon">◉</span> Зоны</a>
+                    <a class="dash-nav-item"><span class="dash-nav-icon">◇</span> События</a>
+                    <a class="dash-nav-item"><span class="dash-nav-icon">◆</span> Финансы</a>
+                    <a class="dash-nav-item"><span class="dash-nav-icon">⚙</span> Настройки</a>
+                </nav>
+
+                <div class="dash-sidebar-footer">
+                    <div class="dash-user">
+                        <div class="dash-user-avatar">A</div>
+                        <div>
+                            <div class="dash-user-name">Admin</div>
+                            <div class="dash-user-role">Test Mode</div>
+                        </div>
+                    </div>
+                    <button class="dash-logout" id="logoutBtn">Выйти</button>
                 </div>
-            </div>
-            
-            <div class="admin-footer">
-                <p>Build v0.9.4-alpha | Environment: Test</p>
-                <div class="admin-status">Server Status: <span class="status-ok">Stable</span></div>
-            </div>
+            </aside>
+
+            <!-- Контент -->
+            <main class="dash-main">
+                <header class="dash-header">
+                    <div>
+                        <h1 class="dash-title">Обзор системы</h1>
+                        <p class="dash-subtitle">Тестовая среда · Обновлено только что</p>
+                    </div>
+                    <div class="dash-header-actions">
+                        <div class="dash-status"><span class="dot-pulse"></span> System Online</div>
+                        <button class="dash-close-btn" id="dashboardClose">Выйти из панели</button>
+                    </div>
+                </header>
+
+                <!-- Метрики -->
+                <div class="dash-metrics">
+                    <div class="metric-card">
+                        <div class="metric-label">Посетители (Live)</div>
+                        <div class="metric-value">1 248</div>
+                        <div class="metric-trend up">↑ 12% за час</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Конверсия в бронь</div>
+                        <div class="metric-value">4.8%</div>
+                        <div class="metric-trend up">↑ 0.4%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Загрузка сцены</div>
+                        <div class="metric-value">82%</div>
+                        <div class="metric-trend up">↑ 5%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Прогноз ROI</div>
+                        <div class="metric-value">142%</div>
+                        <div class="metric-trend up">↑ 8%</div>
+                    </div>
+                </div>
+
+                <!-- Графики -->
+                <div class="dash-grid">
+                    <div class="dash-panel">
+                        <div class="panel-header">
+                            <h3 class="panel-title">Трафик по зонам</h3>
+                            <span class="panel-tag">Live</span>
+                        </div>
+                        <div class="h-bar-chart">
+                            <div class="h-bar-row">
+                                <div class="h-bar-label">Лаборатория</div>
+                                <div class="h-bar-track"><div class="h-bar-fill" style="width: 80%"><span>80%</span></div></div>
+                            </div>
+                            <div class="h-bar-row">
+                                <div class="h-bar-label">Сцена</div>
+                                <div class="h-bar-track"><div class="h-bar-fill" style="width: 65%"><span>65%</span></div></div>
+                            </div>
+                            <div class="h-bar-row">
+                                <div class="h-bar-label">Зона тишины</div>
+                                <div class="h-bar-track"><div class="h-bar-fill" style="width: 40%"><span>40%</span></div></div>
+                            </div>
+                            <div class="h-bar-row">
+                                <div class="h-bar-label">Арт-объект</div>
+                                <div class="h-bar-track"><div class="h-bar-fill" style="width: 55%"><span>55%</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dash-panel">
+                        <div class="panel-header">
+                            <h3 class="panel-title">Лента событий</h3>
+                            <span class="panel-tag live">● Real-time</span>
+                        </div>
+                        <ul class="activity-feed" id="activityFeed">
+                            <li><span>10:42</span> User from Moscow viewed "Dolphins" zone</li>
+                            <li><span>10:41</span> New Partner Inquiry received</li>
+                            <li><span>10:38</span> VR Module #2 initialized</li>
+                            <li><span>10:35</span> System Check: All endpoints ONLINE</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Таблица активности -->
+                <div class="dash-panel dash-panel-wide">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Последние действия пользователей</h3>
+                        <span class="panel-tag">За последний час</span>
+                    </div>
+                    <table class="dash-table">
+                        <thead>
+                            <tr>
+                                <th>Время</th>
+                                <th>Пользователь</th>
+                                <th>Действие</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>10:42</td><td>Ivan S. (Moscow)</td><td>Открыл «Лабораторию»</td><td><span class="badge-success">OK</span></td></tr>
+                            <tr><td>10:38</td><td>Anna K. (Kazan)</td><td>Запросила бронь</td><td><span class="badge-success">OK</span></td></tr>
+                            <tr><td>10:35</td><td>Partner: Rixos</td><td>Отправил заявку</td><td><span class="badge-warn">Pending</span></td></tr>
+                            <tr><td>10:31</td><td>System</td><td>Резервное копирование</td><td><span class="badge-success">OK</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
         </div>
     </div>
 
