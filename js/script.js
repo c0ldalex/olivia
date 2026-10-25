@@ -1,170 +1,106 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    /* ================= 1. ГЕНЕРАЦИЯ ЧАСТИЦ (ПЛАНКТОН) ================= */
+    // 1. ЧАСТИЦЫ
     const particlesContainer = document.getElementById('particles');
     if (particlesContainer) {
-        const particleCount = 50; // Количество частиц
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            
-            // Случайная позиция по горизонтали
-            particle.style.left = `${Math.random() * 100}%`;
-            
-            // Случайный размер (от 1px до 4px)
+        for (let i = 0; i < 50; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.style.left = `${Math.random() * 100}%`;
             const size = Math.random() * 3 + 1;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            
-            // Случайная скорость и задержка анимации
-            const duration = 15 + Math.random() * 20; // от 15 до 35 секунд
-            const delay = Math.random() * 10; // задержка старта
-            particle.style.animationDuration = `${duration}s`;
-            particle.style.animationDelay = `-${delay}s`; // Отрицательная задержка, чтобы они уже были в воздухе
-            
-            // Разная прозрачность
-            particle.style.opacity = Math.random() * 0.5 + 0.2;
-
-            particlesContainer.appendChild(particle);
+            p.style.width = `${size}px`;
+            p.style.height = `${size}px`;
+            p.style.animationDuration = `${15 + Math.random() * 20}s`;
+            p.style.animationDelay = `-${Math.random() * 10}s`;
+            p.style.opacity = Math.random() * 0.5 + 0.2;
+            particlesContainer.appendChild(p);
         }
     }
 
-    /* ================= 2. ЭФФЕКТ СЖАТИЯ НАВИГАЦИИ ПРИ СКРОЛЛЕ ================= */
+    // 2. СЖАТИЕ НАВИГАЦИИ
     const navbar = document.getElementById('navbar');
-    
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
     });
 
-    /* ================= 3. ПЛАВНОЕ ПОЯВЛЕНИЕ БЛОКОВ (REVEAL) ================= */
-    // Автоматически добавляем класс .reveal нужным элементам
-    const elementsToReveal = document.querySelectorAll(
-        '.section-title, .section-desc, .zone-card, .event-card, .econ-table-wrapper, .econ-quote, .pr-list li, .media-stat-box, .cta-content, .manifesto-content'
-    );
-    
-    elementsToReveal.forEach(el => el.classList.add('reveal'));
+    // 3. РАСПИСАНИЕ
+    const tabs = document.querySelectorAll('.schedule-tab');
+    const panels = document.querySelectorAll('.schedule-panel');
 
-    // Настройка обсервера (следит за скроллом)
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15 // Срабатывает, когда 15% элемента появляется на экране
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Отписываемся после появления (чтобы не дергалось при скролле вверх)
-            }
-        });
-    }, observerOptions);
-
-    elementsToReveal.forEach(el => observer.observe(el));
-
-    /* ================= 4. МОБИЛЬНОЕ МЕНЮ (БУРГЕР) ================= */
-    // Создаем кнопку бургера
-    const burger = document.createElement('div');
-    burger.classList.add('burger');
-    burger.innerHTML = '<span></span><span></span><span></span>';
-    navbar.appendChild(burger);
-
-    const navLinks = document.querySelector('.nav-links');
-
-    // Внедряем CSS для бургера и мобильного меню прямо через JS, 
-    // чтобы не заставлять тебя снова редактировать style.css
-    const mobileStyles = document.createElement('style');
-    mobileStyles.innerHTML = `
-        /* Стили для мобильного меню */
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 100%;
-                height: 100vh;
-                background: rgba(4, 20, 31, 0.98);
-                backdrop-filter: blur(15px);
-                -webkit-backdrop-filter: blur(15px);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 30px;
-                transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-                z-index: 999;
-                display: flex !important; /* Принудительно показываем, когда активно */
-            }
-            .nav-links.mobile-active {
-                right: 0;
-            }
-            .nav-links a {
-                font-size: 18px;
-            }
-            .burger {
-                display: flex;
-                flex-direction: column;
-                gap: 6px;
-                cursor: pointer;
-                z-index: 1000;
-                padding: 10px;
-            }
-            .burger span {
-                display: block;
-                width: 30px;
-                height: 2px;
-                background-color: var(--gold);
-                transition: all 0.3s ease;
-            }
-            /* Анимация бургера в крестик */
-            .burger.active span:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            .burger.active span:nth-child(2) {
-                opacity: 0;
-            }
-            .burger.active span:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-        }
-        @media (min-width: 769px) {
-            .burger {
-                display: none;
-            }
-        }
-    `;
-    document.head.appendChild(mobileStyles);
-
-    // Логика клика по бургеру
-    burger.addEventListener('click', () => {
-        navLinks.classList.toggle('mobile-active');
-        burger.classList.toggle('active');
-    });
-
-    // Закрытие меню при клике на ссылку
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('mobile-active');
-            burger.classList.remove('active');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(tab.getAttribute('data-time')).classList.add('active');
         });
     });
 
-    /* ================= 5. ПЛАВНЫЙ СКРОЛЛ ДЛЯ СТАРЫХ БРАУЗЕРОВ ================= */
-    // (Современные браузеры уже понимают scroll-behavior: smooth из CSS, но это для подстраховки)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+    // 4. АДМИН-ПАНЕЛЬ
+    const adminTrigger = document.getElementById('adminTrigger');
+    const adminPanel = document.getElementById('adminPanel');
+    const adminClose = document.getElementById('adminClose');
+    const activityFeed = document.getElementById('activityFeed');
+
+    if (adminTrigger && adminPanel) {
+        adminTrigger.addEventListener('click', (e) => {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            adminPanel.classList.add('active');
+            startLiveFeed(); // Запускаем "живую" ленту
+        });
+
+        adminClose.addEventListener('click', () => {
+            adminPanel.classList.remove('active');
+            stopLiveFeed();
+        });
+
+        // Закрытие по клику вне окна
+        adminPanel.addEventListener('click', (e) => {
+            if (e.target === adminPanel) {
+                adminPanel.classList.remove('active');
+                stopLiveFeed();
             }
         });
-    });
+    }
+
+    // Генератор фейковых логов для админки
+    let feedInterval;
+    const fakeActions = [
+        "User from St. Petersburg opened 3D Tour",
+        "New review received: 5 stars",
+        "VR Module #4 rebooting...",
+        "System check: OK",
+        "User from Kazan requested callback",
+        "Dolphin sensor #1 pinged",
+        "Booking API: 200 OK",
+        "Cache cleared successfully"
+    ];
+
+    function startLiveFeed() {
+        if (feedInterval) return;
+        feedInterval = setInterval(() => {
+            const now = new Date();
+            const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            const action = fakeActions[Math.floor(Math.random() * fakeActions.length)];
+            
+            const li = document.createElement('li');
+            li.innerHTML = `<span>${time}</span> ${action}`;
+            li.style.opacity = 0;
+            li.style.transition = 'opacity 0.5s';
+            activityFeed.prepend(li);
+            
+            // Анимация появления
+            setTimeout(() => li.style.opacity = 1, 50);
+
+            // Ограничиваем список 5 элементами
+            if (activityFeed.children.length > 5) {
+                activityFeed.lastElementChild.remove();
+            }
+        }, 3000); // Каждые 3 секунды
+    }
+
+    function stopLiveFeed() {
+        clearInterval(feedInterval);
+        feedInterval = null;
+    }
 });
