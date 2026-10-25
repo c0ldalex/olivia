@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ================= 5. АВТОРИЗАЦИЯ (GM ACCESS) =================
+    // Используем ТУ САМУЮ кнопку, которая прописана в HTML
     const gmAccessBtn = document.getElementById('gmAccessBtn');
     const gmAuthModal = document.getElementById('gmAuthModal');
     const gmAuthClose = document.getElementById('gmAuthClose');
@@ -154,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboardPanel.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        // Сброс на "Обзор"
         dashNavItems.forEach(item => item.classList.remove('active'));
         if(dashNavItems[0]) dashNavItems[0].classList.add('active');
         
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('btnClose').onclick = closeDashboard;
     }
 
-    // ================= 8. РЕНДЕР "GOD MODE" =================
+    // ================= 8. РЕНДЕР "GOD MODE" (СЕРЬЕЗНЫЙ) =================
     function renderGM_Panel() {
         dashNavItems.forEach(nav => nav.classList.remove('active'));
         stopLiveFeed();
@@ -328,11 +328,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <header class="dash-header">
                 <div>
                     <h1 class="dash-title" style="color: #ff6b6b; text-shadow: 0 0 15px rgba(255,107,107,0.6);">GOD MODE</h1>
-                    <p class="dash-subtitle">Уровень доступа: General Manager</p>
+                    <p class="dash-subtitle">Уровень доступа: General Manager (Root)</p>
                 </div>
                 <div class="dash-header-actions">
                     <div class="dash-status" style="color: #ff6b6b; border-color: #ff6b6b; background: rgba(255,107,107,0.1);">
-                        <span class="dot-pulse" style="background: #ff6b6b; box-shadow: 0 0 10px #ff6b6b;"></span> Root Access
+                        <span class="dot-pulse" style="background: #ff6b6b; box-shadow: 0 0 10px #ff6b6b;"></span> System Override Active
                     </div>
                     <button class="dash-close-btn" id="btnClose">Закрыть панель</button>
                 </div>
@@ -340,28 +340,49 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <div class="dash-grid">
                 <div class="dash-panel" style="border-color: rgba(255,107,107,0.4); box-shadow: 0 0 20px rgba(255,107,107,0.1);">
-                    <div class="panel-header"><h3 class="panel-title" style="color: #ff6b6b;">Системные команды</h3></div>
-                    <p style="color: var(--muted); font-size: 13px; margin-bottom: 20px;">Внимание: данные действия необратимы.</p>
+                    <div class="panel-header"><h3 class="panel-title" style="color: #ff6b6b;">Управление системой</h3></div>
+                    <p style="color: var(--muted); font-size: 13px; margin-bottom: 20px;">Прямое управление базой данных и кэшем проекта.</p>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('💥 БАЗА ДАННЫХ СБРОШЕНА.\\nВсе бронирования удалены. (Это тестовая версия, не переживай)')">💥 Сбросить базу данных</button>
-                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('📉 БЮДЖЕТ ОБНУЛЕН.\\nПроект заморожен. (Шутка. Деньги на месте)')">📉 Обнулить бюджет проекта</button>
-                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('🚀 ПРОТОКОЛ ОЛИВИЯ ЗАПУЩЕН.\\nОтель готов к открытию на год раньше срока.')">🚀 Запустить протокол «Оливия»</button>
+                        <button class="dash-logout" id="gmBtnResetDB" style="width: 100%; text-align: left; padding: 16px; justify-content: space-between; display: flex;">Очистить кэш базы данных <span>[Run]</span></button>
+                        <button class="dash-logout" id="gmBtnRecalc" style="width: 100%; text-align: left; padding: 16px; justify-content: space-between; display: flex;">Пересчитать финансовую модель <span>[Run]</span></button>
+                        <button class="dash-logout" id="gmBtnSync" style="width: 100%; text-align: left; padding: 16px; justify-content: space-between; display: flex;">Синхронизация с API отеля <span>[Run]</span></button>
                     </div>
+                    <div id="gmActionStatus" style="margin-top: 20px; font-family: 'Courier New', monospace; font-size: 12px; color: var(--bio); height: 20px;"></div>
                 </div>
 
                 <div class="dash-panel" style="border-color: rgba(255,107,107,0.4);">
                     <div class="panel-header"><h3 class="panel-title" style="color: #ff6b6b;">Логи ядра</h3></div>
                     <div style="font-family: 'Courier New', monospace; font-size: 12px; color: #ff6b6b; line-height: 1.8; opacity: 0.9; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
                         <div>[SUCCESS] GM authenticated. Welcome, Boss.</div>
-                        <div>[WARN] Unauthorized attempt blocked (IP: 192.168.1.5)</div>
-                        <div>[INFO] Overriding safety protocols...</div>
-                        <div>[INFO] Connecting to mainframe...</div>
-                        <div>[OK] Ready for commands.</div>
+                        <div>[INFO] Root privileges granted.</div>
+                        <div>[WARN] Logging sensitive operations.</div>
+                        <div>[OK] Ready for system commands.</div>
                     </div>
                 </div>
             </div>
         `;
         document.getElementById('btnClose').onclick = closeDashboard;
+
+        // Логика для "серьезных" кнопок
+        const statusDiv = document.getElementById('gmActionStatus');
+        
+        function runAction(btnId, text, resultText) {
+            const btn = document.getElementById(btnId);
+            if(btn) {
+                btn.onclick = () => {
+                    statusDiv.textContent = text;
+                    statusDiv.style.color = '#ffc857';
+                    setTimeout(() => {
+                        statusDiv.textContent = resultText;
+                        statusDiv.style.color = 'var(--bio)';
+                    }, 1500);
+                };
+            }
+        }
+
+        runAction('gmBtnResetDB', 'Инициализация очистки...', 'База данных успешно очищена. Кэш сброшен.');
+        runAction('gmBtnRecalc', 'Пересчет метрик...', 'Финансовая модель обновлена. Прогноз ROI: 142.5%');
+        runAction('gmBtnSync', 'Синхронизация...', 'Синхронизация с PMS отеля завершена.');
     }
 
     // ================= 9. ЖИВАЯ ЛЕНТА =================
