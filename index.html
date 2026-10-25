@@ -14,8 +14,8 @@
 </head>
 <body>
 
-    <!-- БАННЕР ТЕСТОВОЙ ВЕРСИИ -->
-    <div class="test-badge">
+    <!-- БАННЕР ТЕСТОВОЙ ВЕРСИИ (перенесен вниз вправо) -->
+    <div class="test-badge" style="top: auto; bottom: 24px; left: auto; right: 24px; z-index: 2000;">
         <span class="dot-pulse"></span> TEST BUILD v0.9.4
     </div>
 
@@ -25,12 +25,6 @@
     <!-- ================= NAVIGATION ================= -->
     <header class="navbar" id="navbar">
         <div class="logo">
-            <div class="logo-mark">
-                <!-- ИДЕАЛЬНЫЙ ДЕЛЬФИН -->
-                <svg viewBox="0 0 24 24" fill="#c9a96e" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M 21.5 3.5 c -1.5 1 -4 1.5 -4 1.5 s 0.5 -2.5 1.5 -4 c -1 0.5 -3 1 -4.5 1.5 c 0 0 0.5 -2.5 2 -4 c 0 0 -4.5 1.5 -5.5 4.5 c -1 -1 -2.5 -1.5 -2.5 -1.5 c 0.5 2 1.5 3.5 1.5 3.5 s -3 -1 -5.5 -1 c 1.5 2 3.5 3.5 3.5 3.5 s -2.5 0.5 -4.5 2 c 0 0 2.5 1.5 5.5 1.5 c 0 0 -2 2 -3.5 5 c 0 0 3 -1 5 -2.5 c 0 0 0.5 3.5 2 6 c 0 0 0.5 -2 1.5 -4.5 c 1 1.5 2 2.5 2 2.5 c 0 0 -0.5 -3 0 -5.5 c 2.5 2 5.5 2.5 5.5 2.5 c 0 0 -0.5 -2.5 -2 -4.5 c 2 -1 3.5 -2.5 3.5 -2.5 s -3.5 -1 -5.5 -1 c 0 0 0.5 -2 0 -4.5 c 0 0 -1 1.5 -2 3.5 z"/>
-                </svg>
-            </div>
             <span class="logo-text">Тихая бухта</span>
         </div>
         
@@ -213,11 +207,6 @@
     <div class="auth-overlay" id="authModal">
         <div class="auth-card">
             <div class="auth-header">
-                <div class="auth-logo">
-                    <svg viewBox="0 0 24 24" fill="#c9a96e" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 21.5 3.5 c -1.5 1 -4 1.5 -4 1.5 s 0.5 -2.5 1.5 -4 c -1 0.5 -3 1 -4.5 1.5 c 0 0 0.5 -2.5 2 -4 c 0 0 -4.5 1.5 -5.5 4.5 c -1 -1 -2.5 -1.5 -2.5 -1.5 c 0.5 2 1.5 3.5 1.5 3.5 s -3 -1 -5.5 -1 c 1.5 2 3.5 3.5 3.5 3.5 s -2.5 0.5 -4.5 2 c 0 0 2.5 1.5 5.5 1.5 c 0 0 -2 2 -3.5 5 c 0 0 3 -1 5 -2.5 c 0 0 0.5 3.5 2 6 c 0 0 0.5 -2 1.5 -4.5 c 1 1.5 2 2.5 2 2.5 c 0 0 -0.5 -3 0 -5.5 c 2.5 2 5.5 2.5 5.5 2.5 c 0 0 -0.5 -2.5 -2 -4.5 c 2 -1 3.5 -2.5 3.5 -2.5 s -3.5 -1 -5.5 -1 c 0 0 0.5 -2 0 -4.5 c 0 0 -1 1.5 -2 3.5 z"/>
-                    </svg>
-                </div>
                 <h2 class="auth-title">Вход в систему</h2>
                 <p class="auth-subtitle">Панель управления проектом</p>
                 <div class="auth-test-tag">⚠ Test Environment</div>
@@ -246,9 +235,6 @@
         <div class="dashboard">
             <aside class="dash-sidebar">
                 <div class="dash-brand">
-                    <svg viewBox="0 0 24 24" fill="#c9a96e" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 21.5 3.5 c -1.5 1 -4 1.5 -4 1.5 s 0.5 -2.5 1.5 -4 c -1 0.5 -3 1 -4.5 1.5 c 0 0 0.5 -2.5 2 -4 c 0 0 -4.5 1.5 -5.5 4.5 c -1 -1 -2.5 -1.5 -2.5 -1.5 c 0.5 2 1.5 3.5 1.5 3.5 s -3 -1 -5.5 -1 c 1.5 2 3.5 3.5 3.5 3.5 s -2.5 0.5 -4.5 2 c 0 0 2.5 1.5 5.5 1.5 c 0 0 -2 2 -3.5 5 c 0 0 3 -1 5 -2.5 c 0 0 0.5 3.5 2 6 c 0 0 0.5 -2 1.5 -4.5 c 1 1.5 2 2.5 2 2.5 c 0 0 -0.5 -3 0 -5.5 c 2.5 2 5.5 2.5 5.5 2.5 c 0 0 -0.5 -2.5 -2 -4.5 c 2 -1 3.5 -2.5 3.5 -2.5 s -3.5 -1 -5.5 -1 c 0 0 0.5 -2 0 -4.5 c 0 0 -1 1.5 -2 3.5 z"/>
-                    </svg>
                     <div>
                         <div class="dash-brand-name">Тихая бухта</div>
                         <div class="dash-brand-sub">Admin Panel</div>
