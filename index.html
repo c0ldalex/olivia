@@ -230,6 +230,28 @@
         </div>
     </div>
 
+    <!-- ================= МОДАЛКА GM (СЕКРЕТНЫЙ ДОСТУП) ================= -->
+    <div class="auth-overlay" id="gmAuthModal">
+        <div class="auth-card" style="border-color: rgba(255,107,107,0.5); box-shadow: 0 0 50px rgba(255,107,107,0.2);">
+            <div class="auth-header">
+                <h2 class="auth-title" style="color: #ff6b6b;">GM Clearance</h2>
+                <p class="auth-subtitle">Доступ только для генерального директора</p>
+                <div class="auth-test-tag" style="color: #ff6b6b; border-color: rgba(255,107,107,0.4); background: rgba(255,107,107,0.1);">⚠ CLASSIFIED</div>
+            </div>
+
+            <form class="auth-form" id="gmLoginForm">
+                <div class="auth-field">
+                    <label>Код доступа</label>
+                    <input type="password" id="gmPassword" placeholder="••••••••">
+                </div>
+                <button type="submit" class="auth-submit" style="background: #ff6b6b; color: #fff; box-shadow: 0 8px 25px rgba(255,107,107,0.3);">Авторизация</button>
+                <div class="auth-error" id="gmError">Доступ запрещен</div>
+            </form>
+
+            <button class="auth-close" id="gmAuthClose">✕</button>
+        </div>
+    </div>
+
     <!-- ================= ДАШБОРД ================= -->
     <div class="dashboard-overlay" id="dashboardPanel">
         <div class="dashboard">
@@ -257,7 +279,11 @@
                             <div class="dash-user-role">Test Mode</div>
                         </div>
                     </div>
-                    <button class="dash-logout" id="logoutBtn">Выйти</button>
+                    <button class="dash-logout" id="logoutBtn" style="margin-bottom: 10px;">Выйти</button>
+                    <!-- КНОПКА GM ACCESS -->
+                    <button class="dash-logout" id="gmAccessBtn" style="border-color: var(--gold); color: var(--gold); display: flex; justify-content: center; align-items: center; gap: 8px;">
+                        👑 GM Access
+                    </button>
                 </div>
             </aside>
 
