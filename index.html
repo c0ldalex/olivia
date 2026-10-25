@@ -75,126 +75,40 @@
             </div>
         </section>
 
-        <!-- ================= АРТ-ОБЪЕКТ (ФОНТАН) ================= -->
-        <section class="fountain-section" id="fountain">
+        <!-- ================= ТРИ ОПОРЫ ПРОЕКТА ================= -->
+        <section class="features-section" id="features">
             <div class="section-header">
-                <span class="eyebrow">Центр притяжения</span>
-                <h2 class="section-title">Арт-объект <em>«Жемчужина»</em></h2>
-                <p class="section-desc">Сердце «Тихой бухты». Две стихии — бизнес и природа — бережно удерживают хрупкий мир Черного моря.</p>
+                <span class="eyebrow">Экосистема</span>
+                <h2 class="section-title">Три опоры <em>проекта</em></h2>
+                <p class="section-desc">Пространство создается на стыке трех интересов: эмоций гостей, реальной науки и медийного потенциала.</p>
             </div>
 
-            <div class="fountain-container">
-                <svg class="fountain-svg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <!-- Градиент для Жемчужины (Планеты) -->
-                        <radialGradient id="pearlGrad" cx="40%" cy="30%" r="70%">
-                            <stop offset="0%" stop-color="#ffffff"/>
-                            <stop offset="30%" stop-color="#7fffd4"/>
-                            <stop offset="80%" stop-color="#1a5c6e"/>
-                            <stop offset="100%" stop-color="#04141f"/>
-                        </radialGradient>
+            <div class="features-grid">
+                <!-- Опора 1: Гость -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Для гостя</h3>
+                    <p class="feature-text">Интерактив, VR и квесты для детей. Родители отдыхают в зоне тишины. Взрослые слушают лекции. Каждый находит свое впечатление.</p>
+                </div>
 
-                        <!-- Градиент для золотой ленты (Alean) -->
-                        <linearGradient id="goldRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#fdfbf7"/>
-                            <stop offset="30%" stop-color="#e0cba0"/>
-                            <stop offset="70%" stop-color="#c9a96e"/>
-                            <stop offset="100%" stop-color="#8a6b30"/>
-                        </linearGradient>
+                <!-- Опора 2: Наука -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    </div>
+                    <h3 class="feature-title">Для науки и ESG</h3>
+                    <p class="feature-text">Мы внедряем Citizen Science. Гости через планшеты помогают ученым ИПЭЭ РАН классифицировать данные о дельфинах. Отдых превращается в помощь.</p>
+                </div>
 
-                        <!-- Градиент для бирюзовой ленты (Фонд) -->
-                        <linearGradient id="aquaRibbon" x1="100%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#e0fcfc"/>
-                            <stop offset="30%" stop-color="#7fffd4"/>
-                            <stop offset="70%" stop-color="#2a9d8f"/>
-                            <stop offset="100%" stop-color="#1a5c6e"/>
-                        </linearGradient>
-
-                        <!-- Фильтр свечения -->
-                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur stdDeviation="20" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                        
-                        <!-- Фильтр сильного свечения для центра -->
-                        <filter id="strongGlow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur stdDeviation="30" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                    </defs>
-
-                    <!-- Фоновая аура -->
-                    <circle cx="400" cy="300" r="220" fill="rgba(127, 255, 212, 0.05)" filter="url(#strongGlow)">
-                        <animate attributeName="r" values="200;240;200" dur="6s" repeatCount="indefinite" />
-                    </circle>
-
-                    <!-- ================= ЗОЛОТАЯ ЛЕНТА (Alean) ================= -->
-                    <g class="ribbon-gold">
-                        <path d="M 200 450 
-                                 C 150 350, 200 200, 400 200 
-                                 C 600 200, 650 350, 600 450 
-                                 C 550 500, 450 480, 400 480 
-                                 C 350 480, 250 500, 200 450 Z" 
-                              fill="none" stroke="url(#goldRibbon)" stroke-width="25" stroke-linecap="round" opacity="0.8"/>
-                        <!-- Блик на ленте -->
-                        <path d="M 200 450 C 150 350, 200 200, 400 200 C 600 200, 650 350, 600 450" 
-                              fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="4" stroke-linecap="round" />
-                    </g>
-
-                    <!-- ================= БИРЮЗОВАЯ ЛЕНТА (Фонд) ================= -->
-                    <g class="ribbon-aqua">
-                        <path d="M 600 350 
-                                 C 650 450, 500 550, 400 550 
-                                 C 300 550, 150 450, 200 350 
-                                 C 250 250, 350 300, 400 300 
-                                 C 450 300, 550 250, 600 350 Z" 
-                              fill="none" stroke="url(#aquaRibbon)" stroke-width="20" stroke-linecap="round" opacity="0.8"/>
-                        <!-- Блик на ленте -->
-                        <path d="M 600 350 C 650 450, 500 550, 400 550 C 300 550, 150 450, 200 350" 
-                              fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round" />
-                    </g>
-
-                    <!-- ================= ЦЕНТРАЛЬНАЯ ЖЕМЧУЖИНА ================= -->
-                    <g class="pearl">
-                        <!-- Свечение сферы -->
-                        <circle cx="400" cy="320" r="110" fill="url(#pearlGrad)" filter="url(#glow)"/>
-                        
-                        <!-- Блик (стекло/кристалл) -->
-                        <ellipse cx="360" cy="270" rx="40" ry="20" fill="rgba(255,255,255,0.7)" transform="rotate(-30 360 270)" />
-                        <ellipse cx="440" cy="370" rx="20" ry="10" fill="rgba(255,255,255,0.2)" transform="rotate(-30 440 370)" />
-
-                        <!-- Орбитальные кольца вокруг жемчужины -->
-                        <ellipse cx="400" cy="320" rx="160" ry="30" fill="none" stroke="rgba(201,169,110,0.4)" stroke-width="2" transform="rotate(-10 400 320)"/>
-                        <ellipse cx="400" cy="320" rx="180" ry="40" fill="none" stroke="rgba(127,255,212,0.3)" stroke-width="1" transform="rotate(15 400 320)"/>
-                    </g>
-
-                    <!-- ================= ОСНОВАНИЕ (Вода) ================= -->
-                    <ellipse cx="400" cy="520" rx="280" ry="50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/>
-                    <ellipse cx="400" cy="520" rx="200" ry="30" fill="none" stroke="rgba(127,255,212,0.2)" stroke-width="3">
-                        <animate attributeName="rx" values="180;220;180" dur="5s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0.6;0.1;0.6" dur="5s" repeatCount="indefinite" />
-                    </ellipse>
-                    
-                    <!-- Всплывающие частицы (брызги/планктон) -->
-                    <circle cx="300" cy="450" r="4" fill="#7fffd4" opacity="0.8">
-                        <animate attributeName="cy" values="450;350;450" dur="3s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0.8;0;0.8" dur="3s" repeatCount="indefinite" />
-                    </circle>
-                    <circle cx="500" cy="480" r="3" fill="#c9a96e" opacity="0.8">
-                        <animate attributeName="cy" values="480;380;480" dur="4s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0.8;0;0.8" dur="4s" repeatCount="indefinite" />
-                    </circle>
-                    <circle cx="400" cy="420" r="5" fill="#ffffff" opacity="0.6">
-                        <animate attributeName="cy" values="420;300;420" dur="6s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0.6;0;0.6" dur="6s" repeatCount="indefinite" />
-                    </circle>
-                </svg>
-
-                <!-- Подпись и легенда -->
-                <div class="fountain-legend">
-                    <div class="legend-item"><span class="dot gold"></span> Золотая лента — Alean</div>
-                    <div class="legend-item"><span class="dot aqua"></span> Бирюзовая лента — Фонд</div>
-                    <div class="legend-item"><span class="dot white"></span> Жемчужина — Экосистема</div>
+                <!-- Опора 3: Медиа -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    </div>
+                    <h3 class="feature-title">Для медиа и PR</h3>
+                    <p class="feature-text">50+ инфоповодов в год. Пресс-конференции, резиденции художников, кинопоказы. Это реклама, которую невозможно купить за деньги.</p>
                 </div>
             </div>
         </section>
