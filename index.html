@@ -74,111 +74,101 @@
                 </div>
             </div>
         </section>
-<!-- ================= АРТ-ОБЪЕКТ (ФОНТАН) ================= -->
-<section class="fountain-section" id="fountain">
-    <div class="section-header">
-        <span class="eyebrow">Центр притяжения</span>
-        <h2 class="section-title">Арт-объект <em>«Жемчужина»</em></h2>
-        <p class="section-desc">Сердце «Тихой бухты». Два дельфина — отель и природа — бережно держат хрупкий мир Черного моря.</p>
-    </div>
+                <svg class="fountain-svg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Градиент для Планеты -->
+                        <radialGradient id="planetGrad" cx="40%" cy="30%" r="70%">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="20%" stop-color="#7fffd4"/>
+                            <stop offset="70%" stop-color="#1a5c6e"/>
+                            <stop offset="100%" stop-color="#04141f"/>
+                        </radialGradient>
 
-    <div class="fountain-container">
-        <svg class="fountain-svg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <!-- 1. Градиент для Планеты (Жемчужина) -->
-                <radialGradient id="planetGrad" cx="40%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#ffffff"/>
-                    <stop offset="20%" stop-color="#7fffd4"/>
-                    <stop offset="70%" stop-color="#1a5c6e"/>
-                    <stop offset="100%" stop-color="#04141f"/>
-                </radialGradient>
+                        <!-- Градиент для левого дельфина (Alean) -->
+                        <linearGradient id="dolphinAlean" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#e0cba0"/>
+                            <stop offset="100%" stop-color="#c9a96e"/>
+                        </linearGradient>
 
-                <!-- 2. Градиент для левого дельфина (Alean - Золото/Премиум) -->
-                <linearGradient id="dolphinAlean" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#e0cba0"/>
-                    <stop offset="50%" stop-color="#c9a96e"/>
-                    <stop offset="100%" stop-color="#8a6b30"/>
-                </linearGradient>
+                        <!-- Градиент для правого дельфина (Фонд) -->
+                        <linearGradient id="dolphinFund" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#7fffd4"/>
+                            <stop offset="100%" stop-color="#2a9d8f"/>
+                        </linearGradient>
 
-                <!-- 3. Градиент для правого дельфина (Фонд - Бирюза/Природа) -->
-                <linearGradient id="dolphinFund" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#7fffd4"/>
-                    <stop offset="50%" stop-color="#2a9d8f"/>
-                    <stop offset="100%" stop-color="#1a5c6e"/>
-                </linearGradient>
+                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="15" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
 
-                <!-- Фильтр свечения для жемчужины -->
-                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="20" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-            </defs>
+                        <!-- Тот самый идеальный силуэт дельфина (базовый) -->
+                        <g id="dolphin-shape">
+                            <!-- Тело, нос, хвост -->
+                            <path d="M 50 150 
+                                     C 100 120, 180 80, 250 50 
+                                     C 280 40, 310 45, 330 55 
+                                     C 350 65, 360 85, 370 100 
+                                     C 390 130, 400 170, 400 200 
+                                     C 380 210, 340 220, 300 230 
+                                     C 260 240, 200 250, 150 260 
+                                     C 100 270, 50 280, 30 280 
+                                     C 40 250, 60 220, 80 200 
+                                     C 60 180, 50 160, 50 150 Z" 
+                                  fill="inherit" />
+                            <!-- Спинной плавник -->
+                            <path d="M 200 80 C 220 40, 250 20, 280 25 C 260 50, 230 70, 200 80 Z" fill="inherit"/>
+                            <!-- Нижний плавник -->
+                            <path d="M 250 220 C 270 250, 290 270, 310 270 C 290 240, 270 220, 250 220 Z" fill="inherit"/>
+                            <!-- Глаз -->
+                            <circle cx="320" cy="85" r="4" fill="#04141f" />
+                        </g>
+                    </defs>
 
-            <!-- Фоновое сияние (Аура) -->
-            <circle cx="400" cy="250" r="180" fill="rgba(127, 255, 212, 0.08)" filter="url(#glow)">
-                <animate attributeName="r" values="160;200;160" dur="5s" repeatCount="indefinite" />
-            </circle>
+                    <!-- Фоновое свечение -->
+                    <circle cx="400" cy="280" r="200" fill="rgba(127, 255, 212, 0.05)" filter="url(#glow)">
+                        <animate attributeName="r" values="180;220;180" dur="6s" repeatCount="indefinite" />
+                    </circle>
 
-            <!-- Планета (Жемчужина) в центре -->
-            <g>
-                <circle cx="400" cy="240" r="90" fill="url(#planetGrad)" filter="url(#glow)"/>
-                <!-- Блик на планете -->
-                <ellipse cx="370" cy="200" rx="30" ry="15" fill="rgba(255,255,255,0.4)" transform="rotate(-30 370 200)" />
-                <!-- Кольца планеты (Экосистема) -->
-                <ellipse cx="400" cy="240" rx="140" ry="25" fill="none" stroke="rgba(127,255,212,0.3)" stroke-width="2" transform="rotate(-15 400 240)"/>
-                <ellipse cx="400" cy="240" rx="160" ry="30" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="1" transform="rotate(-15 400 240)"/>
-            </g>
+                    <!-- ================= ЛЕВЫЙ ДЕЛЬФИН (Alean) ================= -->
+                    <!-- Ставим его слева, разворачиваем носом к центру -->
+                    <g class="dolphin-a" transform="translate(80, 100) rotate(15) scale(1.1)">
+                        <use href="#dolphin-shape" fill="url(#dolphinAlean)" />
+                    </g>
 
-            <!-- ЛЕВЫЙ ДЕЛЬФИН (Alean) -->
-            <g class="dolphin-a">
-                <!-- Тело, хвост и плавник -->
-                <path d="M 120 450 
-                         C 180 450, 240 380, 290 310 
-                         C 310 280, 320 260, 330 240 
-                         C 315 240, 300 250, 285 270 
-                         C 250 320, 200 380, 150 400 
-                         C 130 410, 110 420, 120 450 Z" 
-                      fill="url(#dolphinAlean)" />
-                <!-- Спинной плавник -->
-                <path d="M 230 350 C 260 320, 280 290, 280 290 C 260 300, 240 320, 230 350 Z" fill="#b89450" />
-                <!-- Глаз -->
-                <circle cx="315" cy="255" r="3" fill="#04141f" />
-            </g>
+                    <!-- ================= ПРАВАЯ ЧАСТЬ (Фонд) ================= -->
+                    <!-- Берем того же дельфина, но через CSS мы его отзеркалим -->
+                    <g class="dolphin-f" transform="translate(720, 100) rotate(-15) scale(-1.1, 1.1)">
+                        <use href="#dolphin-shape" fill="url(#dolphinFund)" />
+                    </g>
 
-            <!-- ПРАВЫЙ ДЕЛЬФИН (Фонд) -->
-            <g class="dolphin-f">
-                <!-- Тело, хвост и плавник (Зеркально) -->
-                <path d="M 680 450 
-                         C 620 450, 560 380, 510 310 
-                         C 490 280, 480 260, 470 240 
-                         C 485 240, 500 250, 515 270 
-                         C 550 320, 600 380, 650 400 
-                         C 670 410, 690 420, 680 450 Z" 
-                      fill="url(#dolphinFund)" />
-                <!-- Спинной плавник -->
-                <path d="M 570 350 C 540 320, 520 290, 520 290 C 540 300, 560 320, 570 350 Z" fill="#2a9d8f" />
-                <!-- Глаз -->
-                <circle cx="485" cy="255" r="3" fill="#04141f" />
-            </g>
+                    <!-- ================= ПЛАНЕТА (ЦЕНТР) ================= -->
+                    <g transform="translate(400, 280)">
+                        <!-- Свечение планеты -->
+                        <circle cx="0" cy="0" r="100" fill="url(#planetGrad)" filter="url(#glow)"/>
+                        <!-- Блик -->
+                        <ellipse cx="-30" cy="-40" rx="30" ry="15" fill="rgba(255,255,255,0.6)" transform="rotate(-30 -30 -40)" />
+                        <!-- Кольца -->
+                        <ellipse cx="0" cy="0" rx="140" ry="25" fill="none" stroke="rgba(127,255,212,0.5)" stroke-width="2" transform="rotate(-15)"/>
+                        <ellipse cx="0" cy="0" rx="160" ry="30" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="1" transform="rotate(-15)"/>
+                    </g>
 
-            <!-- Основание (Фонтан) -->
-            <ellipse cx="400" cy="480" rx="300" ry="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/>
-            <ellipse cx="400" cy="480" rx="200" ry="40" fill="none" stroke="rgba(127,255,212,0.2)" stroke-width="4">
-                <animate attributeName="rx" values="180;220;180" dur="4s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.8;0.2;0.8" dur="4s" repeatCount="indefinite" />
-            </ellipse>
-            <ellipse cx="400" cy="480" rx="150" ry="25" fill="rgba(4,20,31,0.8)" />
-
-            <!-- Капли воды / Брызги -->
-            <circle cx="300" cy="420" r="3" fill="#7fffd4" opacity="0.6">
-                <animate attributeName="cy" values="420;380;420" dur="2s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="500" cy="400" r="4" fill="#7fffd4" opacity="0.8">
-                <animate attributeName="cy" values="400;350;400" dur="2.5s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.8;0;0.8" dur="2.5s" repeatCount="indefinite" />
-            </circle>
-        </svg>
+                    <!-- Волны у основания -->
+                    <ellipse cx="400" cy="500" rx="300" ry="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/>
+                    <ellipse cx="400" cy="500" rx="200" ry="40" fill="none" stroke="rgba(127,255,212,0.3)" stroke-width="4">
+                        <animate attributeName="rx" values="180;220;180" dur="4s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.8;0.2;0.8" dur="4s" repeatCount="indefinite" />
+                    </ellipse>
+                    
+                    <!-- Брызги -->
+                    <circle cx="300" cy="450" r="4" fill="#7fffd4" opacity="0.8">
+                        <animate attributeName="cy" values="450;380;450" dur="2s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="500" cy="420" r="3" fill="#7fffd4" opacity="0.6">
+                        <animate attributeName="cy" values="420;350;420" dur="2.5s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite" />
+                    </circle>
+                </svg>
 
         <!-- Подпись и легенда -->
         <div class="fountain-legend">
