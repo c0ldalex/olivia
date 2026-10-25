@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
             p.style.animationDuration = `${15 + Math.random() * 20}s`;
             p.style.animationDelay = `-${Math.random() * 10}s`;
             p.style.opacity = Math.random() * 0.5 + 0.2;
-            // ВАЖНО: Добавляем стили для анимации частиц, так как в CSS их не было прописано для класса .particle (только для контейнера)
             p.style.position = 'absolute';
             p.style.background = 'var(--bio)';
             p.style.borderRadius = '50%';
@@ -25,18 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Добавляем keyframes для частиц динамически, если их нет в CSS
     if (!document.getElementById('particleKeyframes')) {
         const style = document.createElement('style');
         style.id = 'particleKeyframes';
-        style.innerHTML = `
-            @keyframes floatUp {
-                0% { transform: translateY(100vh) scale(0); opacity: 0; }
-                20% { opacity: 0.6; }
-                80% { opacity: 0.3; }
-                100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
-            }
-        `;
+        style.innerHTML = `@keyframes floatUp { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 20% { opacity: 0.6; } 80% { opacity: 0.3; } 100% { transform: translateY(-10vh) scale(1.5); opacity: 0; } }`;
         document.head.appendChild(style);
     }
 
@@ -48,15 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ================= 3. РАСПИСАНИЕ (ВКЛАДКИ) =================
+    // ================= 3. РАСПИСАНИЕ =================
     const tabs = document.querySelectorAll('.schedule-tab');
     const panels = document.querySelectorAll('.schedule-panel');
-    
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => t.classList.remove('active'));
             panels.forEach(p => p.classList.remove('active'));
-            
             tab.classList.add('active');
             const target = document.getElementById(tab.getAttribute('data-time'));
             if (target) target.classList.add('active');
@@ -73,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginPassword = document.getElementById('loginPassword');
     const authError = document.getElementById('authError');
 
-    // Тестовые данные для входа
     const VALID_USER = 'demo';
     const VALID_PASS = 'demo';
 
@@ -84,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.reset();
         setTimeout(() => loginUsername.focus(), 300);
     }
-
     function closeAuth() {
         authModal.classList.remove('active');
         authError.classList.remove('show');
@@ -93,20 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginTrigger) loginTrigger.addEventListener('click', openAuth);
     if (adminTriggerFooter) adminTriggerFooter.addEventListener('click', openAuth);
     if (authClose) authClose.addEventListener('click', closeAuth);
-    
     if (authModal) {
-        authModal.addEventListener('click', (e) => {
-            if (e.target === authModal) closeAuth();
-        });
+        authModal.addEventListener('click', (e) => { if (e.target === authModal) closeAuth(); });
     }
 
-    // Обработка логина
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const user = loginUsername.value.trim().toLowerCase();
             const pass = loginPassword.value;
-
             if (user === VALID_USER && pass === VALID_PASS) {
                 closeAuth();
                 openDashboard();
@@ -119,43 +101,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ================= 5. ДАШБОРД И ВКЛАДКИ =================
+    // ================= 5. ДАШБОРД =================
     const dashboardPanel = document.getElementById('dashboardPanel');
     const dashboardClose = document.getElementById('dashboardClose');
     const logoutBtn = document.getElementById('logoutBtn');
-    const activityFeed = document.getElementById('activityFeed');
     const dashNavItems = document.querySelectorAll('.dash-nav-item');
     
-    // Контейнер, в который мы будем вставлять контент разных вкладок
+    // Находим контейнер, куда рендерить контент (это main внутри dashboard)
     const dashMain = document.querySelector('.dash-main');
     
-    // Сохраняем оригинальный HTML вкладки "Обзор", чтобы возвращать его
-    let originalOverviewHTML = '';
+    // Сохраняем исходный HTML вкладки "Обзор"
+    const originalOverviewHTML = dashMain.innerHTML;
 
-    let feedInterval = null;
+    let currentTab = 'overview';
 
-    // Функция открытия дашборда
     function openDashboard() {
         dashboardPanel.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        // Если мы еще не сохранили оригинальный HTML, сохраняем его
-        if (!originalOverviewHTML) {
-            originalOverviewHTML = dashMain.innerHTML;
-        } else {
-            // Восстанавливаем обзор по умолчанию при каждом входе
-            dashMain.innerHTML = originalOverviewHTML;
-            rebindOverviewEvents(); // Перепривязываем события для элементов обзора
-        }
-
-        // Сбрасываем активную вкладку на "Обзор"
+        // При открытии всегда показываем "Обзор"
+        currentTab = 'overview';
+        dashMain.innerHTML = originalOverviewHTML;
+        attachOverviewEvents();
+        
+        // Подсвечиваем первую вкладку
         dashNavItems.forEach(item => item.classList.remove('active'));
-        dashNavItems[0].classList.add('active');
+        if(dashNavItems[0]) dashNavItems[0].classList.add('active');
         
         startLiveFeed();
     }
 
-    // Функция закрытия дашборда
     function closeDashboard() {
         dashboardPanel.classList.remove('active');
         document.body.style.overflow = '';
@@ -165,114 +140,118 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dashboardClose) dashboardClose.addEventListener('click', closeDashboard);
     if (logoutBtn) logoutBtn.addEventListener('click', closeDashboard);
 
-    // Логика переключения вкладок в сайдбаре
+    // Обработчик кликов по вкладкам
     dashNavItems.forEach((item, index) => {
         item.addEventListener('click', () => {
-            // 1. Меняем активный класс
+            const tabText = item.textContent.trim();
+            
+            // Подсветка
             dashNavItems.forEach(nav => nav.classList.remove('active'));
             item.classList.add('active');
 
-            // 2. Определяем, куда кликнули
-            const tabName = item.textContent.trim();
+            // Остановка ленты, чтобы не сбивала график
+            stopLiveFeed();
 
-            // 3. Рендерим контент в зависимости от вкладки
-            if (tabName.includes('Обзор')) {
+            // Переключение контента
+            if (tabText.includes('Обзор')) {
                 dashMain.innerHTML = originalOverviewHTML;
-                rebindOverviewEvents();
-            } else if (tabName.includes('Зоны')) {
-                renderZonesTab();
-            } else if (tabName.includes('События')) {
-                renderEventsTab();
-            } else if (tabName.includes('Финансы')) {
-                renderFinanceTab();
-            } else if (tabName.includes('Настройки')) {
-                renderSettingsTab();
+                attachOverviewEvents();
+                startLiveFeed();
+            } 
+            else if (tabText.includes('Зоны')) {
+                renderZones();
+            } 
+            else if (tabText.includes('События')) {
+                renderEvents();
+            } 
+            else if (tabText.includes('Финансы')) {
+                renderFinance();
+            } 
+            else if (tabText.includes('Настройки')) {
+                renderSettings();
             }
         });
     });
 
-    // --- ДИНАМИЧЕСКИЙ РЕНДЕР ВКЛАДОК ---
+    // ================= 6. КОНТЕНТ ВКЛАДОК =================
 
-    // Вкладка: Зоны
-    function renderZonesTab() {
+    function attachOverviewEvents() {
+        const newClose = document.getElementById('dashboardClose');
+        if (newClose) newClose.onclick = closeDashboard;
+        
+        const newFeed = document.getElementById('activityFeed');
+        if (newFeed) startLiveFeed(newFeed);
+    }
+
+    function renderZones() {
         dashMain.innerHTML = `
             <header class="dash-header">
-                <div>
-                    <h1 class="dash-title">Управление зонами</h1>
-                    <p class="dash-subtitle">Статус и загрузка пространств</p>
-                </div>
-                <div class="dash-header-actions">
-                    <button class="dash-close-btn" onclick="document.getElementById('dashboardClose').click()">Закрыть панель</button>
-                </div>
+                <div><h1 class="dash-title">Управление зонами</h1><p class="dash-subtitle">Статус и загрузка пространств</p></div>
+                <div class="dash-header-actions"><button class="dash-close-btn" id="btnClose">Закрыть панель</button></div>
             </header>
             <div class="dash-panel">
+                <div class="panel-header"><h3 class="panel-title">Зоны пространства</h3><span class="panel-tag">Live Data</span></div>
                 <table class="dash-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Название зоны</th>
-                            <th>Статус</th>
-                            <th>Загрузка</th>
-                            <th>Сотрудник</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ID</th><th>Зона</th><th>Статус</th><th>Загрузка</th><th>Ответственный</th></tr></thead>
                     <tbody>
                         <tr><td>01</td><td>Погружение</td><td><span class="badge-success">Active</span></td><td>45%</td><td>Анна К.</td></tr>
                         <tr><td>02</td><td>Дельфины</td><td><span class="badge-success">Active</span></td><td>88%</td><td>Иван С.</td></tr>
-                        <tr><td>03</td><td>Живые истории</td><td><span class="badge-success">Active</span></td><td>30%</td><td>Мария П.</td></tr>
-                        <tr><td>04</td><td>Лаборатория</td><td><span class="badge-success">Active</span></td><td>95%</td><td>Дмитрий Р.</td></tr>
-                        <tr><td>05</td><td>Скамейки у воды</td><td><span class="badge-warn">Maintenance</span></td><td>0%</td><td>—</td></tr>
-                        <tr><td>06</td><td>Сцена-трансформер</td><td><span class="badge-success">Active</span></td><td>60%</td><td>Ольга В.</td></tr>
+                        <tr><td>03</td><td>Живые истории</td><td><span class="badge-warn">Maintenance</span></td><td>0%</td><td>—</td></tr>
+                        <tr><td>04</td><td>Лаборатория</td><td><span class="badge-success">Active</span></td><td>92%</td><td>Дмитрий Р.</td></tr>
+                        <tr><td>05</td><td>Сцена</td><td><span class="badge-success">Active</span></td><td>60%</td><td>Ольга В.</td></tr>
                     </tbody>
                 </table>
             </div>
+            <div style="margin-top: 24px; display: flex; gap: 16px;">
+                <button class="btn-primary" style="padding: 12px 24px; font-size: 12px;">+ Добавить зону</button>
+                <button class="btn-secondary" style="padding: 12px 24px; font-size: 12px;">Экспорт CSV</button>
+            </div>
         `;
+        document.getElementById('btnClose').onclick = closeDashboard;
     }
 
-    // Вкладка: События
-    function renderEventsTab() {
+    function renderEvents() {
         dashMain.innerHTML = `
             <header class="dash-header">
-                <div>
-                    <h1 class="dash-title">Менеджер событий</h1>
-                    <p class="dash-subtitle">Ближайшие мероприятия и аренды</p>
-                </div>
-                <div class="dash-header-actions">
-                    <button class="dash-close-btn" onclick="document.getElementById('dashboardClose').click()">Закрыть панель</button>
-                </div>
+                <div><h1 class="dash-title">Менеджер событий</h1><p class="dash-subtitle">Таймлайн на сегодня</p></div>
+                <div class="dash-header-actions"><button class="dash-close-btn" id="btnClose">Закрыть панель</button></div>
             </header>
             <div class="dash-grid">
                 <div class="dash-panel">
-                    <div class="panel-header"><h3 class="panel-title">На сегодня</h3></div>
-                    <ul class="activity-feed">
-                        <li><span>14:00</span> Йога у воды (Группа 12 чел.)</li>
-                        <li><span>16:30</span> Детский VR-квест (Группа 8 чел.)</li>
-                        <li><span>19:00</span> Кинопоказ «Зов моря»</li>
+                    <div class="panel-header"><h3 class="panel-title">Активности</h3></div>
+                    <ul class="activity-feed" style="gap: 20px;">
+                        <li style="border-left: 2px solid var(--gold); padding-left: 16px; border-bottom: none;">
+                            <span style="font-size: 16px; color: var(--gold);">14:00</span><br> 
+                            <strong>Йога у воды</strong> <br><span style="font-size: 12px; color: var(--muted);">Группа: 12 человек / Зона: Тишина</span>
+                        </li>
+                        <li style="border-left: 2px solid var(--bio); padding-left: 16px; border-bottom: none;">
+                            <span style="font-size: 16px; color: var(--bio);">16:30</span><br> 
+                            <strong>VR-квест "Дельфины"</strong> <br><span style="font-size: 12px; color: var(--muted);">Группа: 8 детей / Зона: Лаборатория</span>
+                        </li>
+                        <li style="border-left: 2px solid #ffc857; padding-left: 16px; border-bottom: none;">
+                            <span style="font-size: 16px; color: #ffc857;">19:00</span><br> 
+                            <strong>Кинопоказ "Зов моря"</strong> <br><span style="font-size: 12px; color: var(--muted);">Свободный вход / Сцена-трансформер</span>
+                        </li>
                     </ul>
                 </div>
                 <div class="dash-panel">
                     <div class="panel-header"><h3 class="panel-title">Заявки на аренду</h3></div>
                     <ul class="activity-feed">
-                        <li><span>New</span> Свадьба (Ивановы) — 15 июня</li>
-                        <li><span>In work</span> Конференция TechCorp — 22 июня</li>
-                        <li><span>Approved</span> Фотосессия Vogue — 25 июня</li>
+                        <li><span>New</span> Свадьба (семья Ивановых) <br>15 июня</li>
+                        <li><span>New</span> Конференция TechCorp <br>22 июня</li>
+                        <li><span>OK</span> Фотосессия для журнала <br>25 июня</li>
                     </ul>
                 </div>
             </div>
         `;
+        document.getElementById('btnClose').onclick = closeDashboard;
     }
 
-    // Вкладка: Финансы
-    function renderFinanceTab() {
+    function renderFinance() {
         dashMain.innerHTML = `
             <header class="dash-header">
-                <div>
-                    <h1 class="dash-title">Финансовые показатели</h1>
-                    <p class="dash-subtitle">Отчет за текущий месяц</p>
-                </div>
-                <div class="dash-header-actions">
-                    <button class="dash-close-btn" onclick="document.getElementById('dashboardClose').click()">Закрыть панель</button>
-                </div>
+                <div><h1 class="dash-title">Финансы</h1><p class="dash-subtitle">Отчет за текущий месяц</p></div>
+                <div class="dash-header-actions"><button class="dash-close-btn" id="btnClose">Закрыть панель</button></div>
             </header>
             <div class="dash-metrics">
                 <div class="metric-card">
@@ -285,91 +264,121 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="metric-value">₽ 120k</div>
                     <div class="metric-trend up">↑ 8% к плану</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">Расходы (OPEX)</div>
-                    <div class="metric-value">₽ 700k</div>
-                    <div class="metric-trend">В пределах нормы</div>
-                </div>
             </div>
             <div class="dash-panel">
                 <div class="panel-header"><h3 class="panel-title">Структура дохода</h3></div>
                 <div class="h-bar-chart">
                     <div class="h-bar-row"><div class="h-bar-label">Аренда сцены</div><div class="h-bar-track"><div class="h-bar-fill" style="width: 60%"><span>60%</span></div></div></div>
-                    <div class="h-bar-row"><div class="h-bar-label">Кейтеринг и бар</div><div class="h-bar-track"><div class="h-bar-fill" style="width: 25%"><span>25%</span></div></div></div>
-                    <div class="h-bar-row"><div class="h-bar-label">Мерч и сувениры</div><div class="h-bar-track"><div class="h-bar-fill" style="width: 15%"><span>15%</span></div></div></div>
+                    <div class="h-bar-row"><div class="h-bar-label">Кейтеринг</div><div class="h-bar-track"><div class="h-bar-fill" style="width: 25%"><span>25%</span></div></div></div>
+                    <div class="h-bar-row"><div class="h-bar-label">Мерч</div><div class="h-bar-track"><div class="h-bar-fill" style="width: 15%"><span>15%</span></div></div></div>
                 </div>
             </div>
         `;
+        document.getElementById('btnClose').onclick = closeDashboard;
     }
 
-    // Вкладка: Настройки
-    function renderSettingsTab() {
+    function renderSettings() {
         dashMain.innerHTML = `
             <header class="dash-header">
-                <div>
-                    <h1 class="dash-title">Настройки системы</h1>
-                    <p class="dash-subtitle">Глобальные параметры пространства</p>
-                </div>
-                <div class="dash-header-actions">
-                    <button class="dash-close-btn" onclick="document.getElementById('dashboardClose').click()">Закрыть панель</button>
-                </div>
+                <div><h1 class="dash-title">Настройки</h1><p class="dash-subtitle">Глобальные параметры</p></div>
+                <div class="dash-header-actions"><button class="dash-close-btn" id="btnClose">Закрыть панель</button></div>
             </header>
             <div class="dash-panel">
                 <div class="panel-header"><h3 class="panel-title">Режим работы</h3></div>
                 <ul class="activity-feed" style="font-size: 15px;">
-                    <li style="justify-content: space-between; align-items: center;">
-                        <span>Утренняя йога (07:00)</span>
-                        <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: var(--gold);">
-                    </li>
-                    <li style="justify-content: space-between; align-items: center;">
-                        <span>Детские квесты (12:00)</span>
-                        <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: var(--gold);">
-                    </li>
-                    <li style="justify-content: space-between; align-items: center;">
-                        <span>Вечерние кинопоказы (19:00)</span>
-                        <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: var(--gold);">
-                    </li>
-                    <li style="justify-content: space-between; align-items: center;">
-                        <span>Ночные мероприятия (23:00)</span>
-                        <input type="checkbox" style="width: 20px; height: 20px; accent-color: var(--gold);">
-                    </li>
+                    <li style="justify-content: space-between; align-items: center;"><span>Утренняя йога (07:00)</span><input type="checkbox" checked style="width: 20px; height: 20px; accent-color: var(--gold);"></li>
+                    <li style="justify-content: space-between; align-items: center;"><span>Детские квесты (12:00)</span><input type="checkbox" checked style="width: 20px; height: 20px; accent-color: var(--gold);"></li>
+                    <li style="justify-content: space-between; align-items: center;"><span>Ночные мероприятия (23:00)</span><input type="checkbox" style="width: 20px; height: 20px; accent-color: var(--gold);"></li>
                 </ul>
                 <div style="margin-top: 30px;">
-                    <button class="btn-primary" style="padding: 12px 24px; font-size: 11px;">Сохранить изменения</button>
+                    <button class="btn-primary" style="padding: 12px 24px; font-size: 12px;">Сохранить изменения</button>
                 </div>
             </div>
         `;
+        document.getElementById('btnClose').onclick = closeDashboard;
     }
 
-    // Функция для перепривязки событий внутри "Обзора", так как мы восстанавливаем HTML из строки
-    function rebindOverviewEvents() {
-        // Находим кнопку закрытия в восстановленном HTML и привязываем событие
-        const newCloseBtn = document.getElementById('dashboardClose');
-        if (newCloseBtn) newCloseBtn.addEventListener('click', closeDashboard);
+    // ================= 7. GM ACCESS (СЕКРЕТНАЯ ПАНЕЛЬ) =================
+    // Добавляем кнопку GM Access в сайдбар
+    const dashSidebarFooter = document.querySelector('.dash-sidebar-footer');
+    if (dashSidebarFooter) {
+        const gmBtn = document.createElement('button');
+        gmBtn.innerHTML = '👑 GM Access';
+        gmBtn.style.cssText = 'margin-top: 12px; width: 100%; padding: 12px; background: rgba(201,169,110,0.1); border: 1px solid var(--gold); color: var(--gold); border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; letter-spacing: 1px; transition: 0.3s;';
+        gmBtn.onmouseover = () => gmBtn.style.background = 'rgba(201,169,110,0.2)';
+        gmBtn.onmouseout = () => gmBtn.style.background = 'rgba(201,169,110,0.1)';
+        dashSidebarFooter.insertBefore(gmBtn, dashSidebarFooter.lastElementChild);
+
+        gmBtn.addEventListener('click', () => {
+            const pass = prompt('🔒 Секретный доступ (General Manager):\nВведите код:');
+            if (pass === 'admin2027') {
+                renderGM_Panel();
+            } else if (pass !== null) {
+                alert('❌ ACCESS DENIED. Неверный код.');
+            }
+        });
+    }
+
+    function renderGM_Panel() {
+        // Убираем подсветку со всех вкладок, так как это не вкладка
+        dashNavItems.forEach(nav => nav.classList.remove('active'));
+        stopLiveFeed();
         
-        // Перезапускаем ленту событий
-        const newFeed = document.getElementById('activityFeed');
-        if (newFeed) {
-            stopLiveFeed();
-            startLiveFeed(newFeed);
-        }
+        dashMain.innerHTML = `
+            <header class="dash-header">
+                <div>
+                    <h1 class="dash-title" style="color: #ff6b6b; text-shadow: 0 0 10px rgba(255,107,107,0.5);">GOD MODE</h1>
+                    <p class="dash-subtitle">Уровень доступа: General Manager</p>
+                </div>
+                <div class="dash-header-actions">
+                    <div class="dash-status" style="color: #ff6b6b; border-color: #ff6b6b; background: rgba(255,107,107,0.1);">
+                        <span class="dot-pulse" style="background: #ff6b6b; box-shadow: 0 0 10px #ff6b6b;"></span> Root Access
+                    </div>
+                    <button class="dash-close-btn" id="btnClose">Закрыть панель</button>
+                </div>
+            </header>
+            
+            <div class="dash-grid">
+                <div class="dash-panel" style="border-color: rgba(255,107,107,0.3);">
+                    <div class="panel-header"><h3 class="panel-title">Системные команды</h3></div>
+                    <p style="color: var(--muted); font-size: 13px; margin-bottom: 20px;">Внимание: данные действия необратимы.</p>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('💥 База данных сброшена. (Шутка. Это тестовая версия)')">💥 Сбросить базу данных</button>
+                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('📉 Акции упали на 99%. (Шутка)')">📉 Обнулить бюджет проекта</button>
+                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('🚀 Ракета запущена в сторону Анапы. (Шутка)')">🚀 Запустить протокол «Оливия»</button>
+                    </div>
+                </div>
+
+                <div class="dash-panel" style="border-color: rgba(255,107,107,0.3);">
+                    <div class="panel-header"><h3 class="panel-title">Логи ядра</h3></div>
+                    <div style="font-family: 'Courier New', monospace; font-size: 12px; color: #ff6b6b; line-height: 1.8; opacity: 0.8;">
+                        <div>[SUCCESS] GM authenticated</div>
+                        <div>[WARN] Unauthorized attempt blocked (IP: 192.168.1.5)</div>
+                        <div>[INFO] Overriding safety protocols...</div>
+                        <div>[INFO] Connecting to mainframe...</div>
+                        <div>[OK] Ready for commands.</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Возврат назад
+        document.getElementById('btnClose').onclick = closeDashboard;
     }
 
-    // ================= 6. ЖИВАЯ ЛЕНТА СОБЫТИЙ =================
+    // ================= 8. ЖИВАЯ ЛЕНТА =================
+    let feedInterval = null;
     const fakeActions = [
         "User from St. Petersburg opened 3D Tour",
         "New review received: 5 stars ⭐",
         "VR Module #4 rebooted",
-        "System check: all endpoints OK",
         "User from Kazan requested callback",
-        "Dolphin sensor #1 pinged",
         "Booking API: 200 OK",
         "Cache cleared successfully",
-        "New partner inquiry from Sochi",
-        "Analytics snapshot created"
+        "New partner inquiry from Sochi"
     ];
 
-    function startLiveFeed(container = activityFeed) {
+    function startLiveFeed(container = document.getElementById('activityFeed')) {
         if (feedInterval) clearInterval(feedInterval);
         if (!container) return;
 
@@ -383,20 +392,10 @@ document.addEventListener('DOMContentLoaded', () => {
             li.style.opacity = '0';
             li.style.transform = 'translateX(-10px)';
             li.style.transition = 'all 0.4s ease';
-            
-            // Вставляем в начало списка
             container.prepend(li);
 
-            // Анимация появления
-            setTimeout(() => {
-                li.style.opacity = '1';
-                li.style.transform = 'translateX(0)';
-            }, 50);
-
-            // Ограничиваем список 6 элементами
-            if (container.children.length > 6) {
-                container.lastElementChild.remove();
-            }
+            setTimeout(() => { li.style.opacity = '1'; li.style.transform = 'translateX(0)'; }, 50);
+            if (container.children.length > 6) container.lastElementChild.remove();
         }, 3500);
     }
 
@@ -405,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
         feedInterval = null;
     }
 
-    // ================= 7. ЗАКРЫТИЕ ПО ESC =================
+    // ================= 9. ESC =================
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             if (authModal && authModal.classList.contains('active')) closeAuth();
@@ -413,10 +412,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ================= 8. ПЛАВНОЕ ПОЯВЛЕНИЕ (REVEAL) =================
+    // ================= 10. REVEAL =================
     const revealEls = document.querySelectorAll('.section-title, .section-desc, .feature-card, .zone-card, .econ-table-wrapper, .econ-quote');
     revealEls.forEach(el => el.classList.add('reveal'));
-
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -425,6 +423,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, { threshold: 0.15 });
-
     revealEls.forEach(el => observer.observe(el));
 });
