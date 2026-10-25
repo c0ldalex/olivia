@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ================= 1. ЧАСТИЦЫ НА ФОНЕ =================
+    // ================= 1. ЧАСТИЦЫ =================
     const particlesContainer = document.getElementById('particles');
     if (particlesContainer) {
         for (let i = 0; i < 60; i++) {
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.head.appendChild(style);
     }
 
-    // ================= 2. СЖАТИЕ НАВИГАЦИИ =================
+    // ================= 2. NAVBAR =================
     const navbar = document.getElementById('navbar');
     if (navbar) {
         window.addEventListener('scroll', () => {
@@ -80,9 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginTrigger) loginTrigger.addEventListener('click', openAuth);
     if (adminTriggerFooter) adminTriggerFooter.addEventListener('click', openAuth);
     if (authClose) authClose.addEventListener('click', closeAuth);
-    if (authModal) {
-        authModal.addEventListener('click', (e) => { if (e.target === authModal) closeAuth(); });
-    }
+    if (authModal) authModal.addEventListener('click', (e) => { if (e.target === authModal) closeAuth(); });
 
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
@@ -101,8 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ================= 5. АВТОРИЗАЦИЯ (GM ACCESS) =================
-    // Используем ТУ САМУЮ кнопку, которая прописана в HTML
+    // ================= 5. GM ACCESS =================
     const gmAccessBtn = document.getElementById('gmAccessBtn');
     const gmAuthModal = document.getElementById('gmAuthModal');
     const gmAuthClose = document.getElementById('gmAuthClose');
@@ -118,15 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => gmPassword.focus(), 300);
         });
     }
-
-    if (gmAuthClose) {
-        gmAuthClose.addEventListener('click', () => gmAuthModal.classList.remove('active'));
-    }
-    if (gmAuthModal) {
-        gmAuthModal.addEventListener('click', (e) => {
-            if (e.target === gmAuthModal) gmAuthModal.classList.remove('active');
-        });
-    }
+    if (gmAuthClose) gmAuthClose.addEventListener('click', () => gmAuthModal.classList.remove('active'));
+    if (gmAuthModal) gmAuthModal.addEventListener('click', (e) => { if (e.target === gmAuthModal) gmAuthModal.classList.remove('active'); });
 
     if (gmLoginForm) {
         gmLoginForm.addEventListener('submit', (e) => {
@@ -148,19 +138,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logoutBtn');
     const dashNavItems = document.querySelectorAll('.dash-nav-item');
     const dashMain = document.querySelector('.dash-main');
-    
     const originalOverviewHTML = dashMain.innerHTML;
 
     function openDashboard() {
         dashboardPanel.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
         dashNavItems.forEach(item => item.classList.remove('active'));
         if(dashNavItems[0]) dashNavItems[0].classList.add('active');
-        
         dashMain.innerHTML = originalOverviewHTML;
         attachOverviewEvents();
-        
         startLiveFeed();
     }
 
@@ -173,11 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dashboardClose) dashboardClose.addEventListener('click', closeDashboard);
     if (logoutBtn) logoutBtn.addEventListener('click', closeDashboard);
 
-    // Обработчик кликов по вкладкам
-    dashNavItems.forEach((item, index) => {
+    dashNavItems.forEach((item) => {
         item.addEventListener('click', () => {
             const tabText = item.textContent.trim();
-            
             dashNavItems.forEach(nav => nav.classList.remove('active'));
             item.classList.add('active');
             stopLiveFeed();
@@ -194,12 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ================= 7. ФУНКЦИИ РЕНДЕРА ВКЛАДОК =================
-
+    // ================= 7. ВКЛАДКИ ДАШБОРДА =================
     function attachOverviewEvents() {
         const newClose = document.getElementById('dashboardClose');
         if (newClose) newClose.onclick = closeDashboard;
-        
         const newFeed = document.getElementById('activityFeed');
         if (newFeed) startLiveFeed(newFeed);
     }
@@ -319,70 +301,243 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('btnClose').onclick = closeDashboard;
     }
 
-    // ================= 8. РЕНДЕР "GOD MODE" (СЕРЬЕЗНЫЙ) =================
+    // ================= 8. GM ПАНЕЛЬ (ПАНЕЛЬ УПРАВЛЕНИЯ ПРОЕКТОМ) =================
     function renderGM_Panel() {
         dashNavItems.forEach(nav => nav.classList.remove('active'));
         stopLiveFeed();
-        
+
         dashMain.innerHTML = `
             <header class="dash-header">
                 <div>
-                    <h1 class="dash-title" style="color: #ff6b6b; text-shadow: 0 0 15px rgba(255,107,107,0.6);">GOD MODE</h1>
-                    <p class="dash-subtitle">Уровень доступа: General Manager (Root)</p>
+                    <h1 class="dash-title">Панель управления проектом</h1>
+                    <p class="dash-subtitle">Уровень доступа: General Manager</p>
                 </div>
                 <div class="dash-header-actions">
-                    <div class="dash-status" style="color: #ff6b6b; border-color: #ff6b6b; background: rgba(255,107,107,0.1);">
-                        <span class="dot-pulse" style="background: #ff6b6b; box-shadow: 0 0 10px #ff6b6b;"></span> System Override Active
-                    </div>
                     <button class="dash-close-btn" id="btnClose">Закрыть панель</button>
                 </div>
             </header>
-            
-            <div class="dash-grid">
-                <div class="dash-panel" style="border-color: rgba(255,107,107,0.4); box-shadow: 0 0 20px rgba(255,107,107,0.1);">
-                    <div class="panel-header"><h3 class="panel-title" style="color: #ff6b6b;">Управление системой</h3></div>
-                    <p style="color: var(--muted); font-size: 13px; margin-bottom: 20px;">Прямое управление базой данных и кэшем проекта.</p>
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <button class="dash-logout" id="gmBtnResetDB" style="width: 100%; text-align: left; padding: 16px; justify-content: space-between; display: flex;">Очистить кэш базы данных <span>[Run]</span></button>
-                        <button class="dash-logout" id="gmBtnRecalc" style="width: 100%; text-align: left; padding: 16px; justify-content: space-between; display: flex;">Пересчитать финансовую модель <span>[Run]</span></button>
-                        <button class="dash-logout" id="gmBtnSync" style="width: 100%; text-align: left; padding: 16px; justify-content: space-between; display: flex;">Синхронизация с API отеля <span>[Run]</span></button>
-                    </div>
-                    <div id="gmActionStatus" style="margin-top: 20px; font-family: 'Courier New', monospace; font-size: 12px; color: var(--bio); height: 20px;"></div>
-                </div>
 
-                <div class="dash-panel" style="border-color: rgba(255,107,107,0.4);">
-                    <div class="panel-header"><h3 class="panel-title" style="color: #ff6b6b;">Логи ядра</h3></div>
-                    <div style="font-family: 'Courier New', monospace; font-size: 12px; color: #ff6b6b; line-height: 1.8; opacity: 0.9; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
-                        <div>[SUCCESS] GM authenticated. Welcome, Boss.</div>
-                        <div>[INFO] Root privileges granted.</div>
-                        <div>[WARN] Logging sensitive operations.</div>
-                        <div>[OK] Ready for system commands.</div>
-                    </div>
-                </div>
+            <!-- Внутренняя навигация -->
+            <div class="schedule-tabs" id="gmTabs" style="margin-bottom: 28px; border-radius: 8px; overflow: hidden;">
+                <button class="schedule-tab active" data-gm="admins">Администраторы</button>
+                <button class="schedule-tab" data-gm="project">Проект</button>
+                <button class="schedule-tab" data-gm="security">Безопасность</button>
             </div>
+
+            <div id="gmContent"></div>
         `;
         document.getElementById('btnClose').onclick = closeDashboard;
 
-        // Логика для "серьезных" кнопок
-        const statusDiv = document.getElementById('gmActionStatus');
-        
-        function runAction(btnId, text, resultText) {
-            const btn = document.getElementById(btnId);
-            if(btn) {
-                btn.onclick = () => {
-                    statusDiv.textContent = text;
-                    statusDiv.style.color = '#ffc857';
-                    setTimeout(() => {
-                        statusDiv.textContent = resultText;
-                        statusDiv.style.color = 'var(--bio)';
-                    }, 1500);
-                };
-            }
-        }
+        // Рендер вкладок GM
+        const gmTabs = document.querySelectorAll('#gmTabs .schedule-tab');
+        gmTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                gmTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const target = tab.getAttribute('data-gm');
+                if (target === 'admins') renderGM_Admins();
+                if (target === 'project') renderGM_Project();
+                if (target === 'security') renderGM_Security();
+            });
+        });
 
-        runAction('gmBtnResetDB', 'Инициализация очистки...', 'База данных успешно очищена. Кэш сброшен.');
-        runAction('gmBtnRecalc', 'Пересчет метрик...', 'Финансовая модель обновлена. Прогноз ROI: 142.5%');
-        runAction('gmBtnSync', 'Синхронизация...', 'Синхронизация с PMS отеля завершена.');
+        // По умолчанию — администраторы
+        renderGM_Admins();
+    }
+
+    // ---------- GM: Администраторы ----------
+    function renderGM_Admins() {
+        const content = document.getElementById('gmContent');
+        if (!content) return;
+
+        const admins = [
+            { name: 'Алексей Дорохов', email: 'a.dorohov@tihayabuhta.ru', role: 'General Manager', last: '2 мин назад', status: 'active' },
+            { name: 'Мария Ковалёва', email: 'm.kovaleva@tihayabuhta.ru', role: 'Project Lead', last: 'Сегодня, 11:42', status: 'active' },
+            { name: 'Иван Соколов', email: 'i.sokolov@tihayabuhta.ru', role: 'Content Manager', last: 'Сегодня, 09:15', status: 'active' },
+            { name: 'Ольга Ветрова', email: 'o.vetrova@tihayabuhta.ru', role: 'Event Manager', last: 'Вчера, 18:30', status: 'active' },
+            { name: 'Дмитрий Романов', email: 'd.romanov@tihayabuhta.ru', role: 'Tech Support', last: '12 окт, 14:20', status: 'pending' },
+            { name: 'Анна Крылова', email: 'a.krylova@tihayabuhta.ru', role: 'Content Manager', last: '5 окт, 10:00', status: 'suspended' }
+        ];
+
+        const rows = admins.map(a => {
+            let statusBadge = '';
+            if (a.status === 'active') statusBadge = '<span class="badge-success">Активен</span>';
+            if (a.status === 'pending') statusBadge = '<span class="badge-warn">Ожидает</span>';
+            if (a.status === 'suspended') statusBadge = '<span class="badge-warn" style="color:#ff6b6b;border-color:rgba(255,107,107,0.3);background:rgba(255,107,107,0.1);">Приостановлен</span>';
+
+            return `<tr>
+                <td>${a.name}</td>
+                <td>${a.email}</td>
+                <td>${a.role}</td>
+                <td>${a.last}</td>
+                <td>${statusBadge}</td>
+                <td><a href="#" style="color: var(--gold); font-size: 12px;">Изменить</a></td>
+            </tr>`;
+        }).join('');
+
+        content.innerHTML = `
+            <div class="dash-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">База администраторов сайта</h3>
+                    <span class="panel-tag">${admins.length} пользователей</span>
+                </div>
+                <table class="dash-table">
+                    <thead><tr><th>Сотрудник</th><th>Email</th><th>Роль</th><th>Последний вход</th><th>Статус</th><th></th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>
+                <div style="margin-top: 24px; display: flex; gap: 12px;">
+                    <button class="btn-primary" id="gmAddAdmin" style="padding: 12px 24px; font-size: 12px;">+ Добавить администратора</button>
+                    <button class="btn-secondary" style="padding: 12px 24px; font-size: 12px;">Экспорт списка</button>
+                </div>
+                <div id="gmAdminStatus" style="margin-top: 16px; font-family: 'Courier New', monospace; font-size: 12px; color: var(--bio); height: 20px;"></div>
+            </div>
+        `;
+
+        const addBtn = document.getElementById('gmAddAdmin');
+        if (addBtn) {
+            addBtn.onclick = () => {
+                const s = document.getElementById('gmAdminStatus');
+                if (!s) return;
+                s.textContent = 'Отправка приглашения...';
+                s.style.color = '#ffc857';
+                setTimeout(() => {
+                    s.textContent = 'Приглашение отправлено на email нового сотрудника.';
+                    s.style.color = 'var(--bio)';
+                }, 1200);
+            };
+        }
+    }
+
+    // ---------- GM: Проект ----------
+    function renderGM_Project() {
+        const content = document.getElementById('gmContent');
+        if (!content) return;
+
+        const stages = [
+            { name: 'Концепция и утверждение', progress: 100, status: 'Завершено' },
+            { name: 'Дизайн и визуализация', progress: 100, status: 'Завершено' },
+            { name: 'Закупка оборудования', progress: 65, status: 'В работе' },
+            { name: 'Монтаж и пусконаладка', progress: 20, status: 'В работе' },
+            { name: 'Открытие и запуск', progress: 0, status: 'Ожидание' }
+        ];
+
+        const stagesHTML = stages.map(s => {
+            const barColor = s.progress === 100 ? 'var(--bio)' : (s.progress > 0 ? 'var(--gold)' : 'rgba(255,255,255,0.1)');
+            return `<div class="h-bar-row" style="margin-bottom: 18px;">
+                <div class="h-bar-label" style="display:flex; justify-content:space-between;">
+                    <span>${s.name}</span>
+                    <span style="color: var(--muted); font-size: 12px;">${s.status} · ${s.progress}%</span>
+                </div>
+                <div class="h-bar-track">
+                    <div class="h-bar-fill" style="width: ${s.progress}%; background: ${barColor};">
+                        ${s.progress > 10 ? `<span>${s.progress}%</span>` : ''}
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+
+        content.innerHTML = `
+            <div class="dash-grid">
+                <div class="dash-panel">
+                    <div class="panel-header"><h3 class="panel-title">Дорожная карта проекта</h3></div>
+                    ${stagesHTML}
+                </div>
+
+                <div class="dash-panel">
+                    <div class="panel-header"><h3 class="panel-title">Команда проекта</h3></div>
+                    <ul class="activity-feed">
+                        <li><span>GM</span> Алексей Дорохов — Руководитель проекта</li>
+                        <li><span>PL</span> Мария Ковалёва — Project Lead</li>
+                        <li><span>CM</span> Иван Соколов — Контент-менеджер</li>
+                        <li><span>EM</span> Ольга Ветрова — Менеджер событий</li>
+                        <li><span>TS</span> Дмитрий Романов — Техническая поддержка</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="dash-metrics" style="margin-top: 24px;">
+                <div class="metric-card">
+                    <div class="metric-label">Бюджет проекта</div>
+                    <div class="metric-value">₽ 37.4M</div>
+                    <div class="metric-trend">Освоено: 68%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Готовность</div>
+                    <div class="metric-value">57%</div>
+                    <div class="metric-trend up">↑ 4% за неделю</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Дедлайн</div>
+                    <div class="metric-value">Q4 2027</div>
+                    <div class="metric-trend">В графике</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Открытых задач</div>
+                    <div class="metric-value">14</div>
+                    <div class="metric-trend up">↓ 3 за неделю</div>
+                </div>
+            </div>
+        `;
+    }
+
+    // ---------- GM: Безопасность ----------
+    function renderGM_Security() {
+        const content = document.getElementById('gmContent');
+        if (!content) return;
+
+        content.innerHTML = `
+            <div class="dash-grid">
+                <div class="dash-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">Последние входы</h3>
+                        <span class="panel-tag">За 24 часа</span>
+                    </div>
+                    <table class="dash-table">
+                        <thead><tr><th>Время</th><th>Сотрудник</th><th>IP</th><th>Статус</th></tr></thead>
+                        <tbody>
+                            <tr><td>11:42</td><td>Алексей Д.</td><td>192.168.1.10</td><td><span class="badge-success">OK</span></td></tr>
+                            <tr><td>11:30</td><td>Мария К.</td><td>192.168.1.22</td><td><span class="badge-success">OK</span></td></tr>
+                            <tr><td>09:15</td><td>Иван С.</td><td>192.168.1.34</td><td><span class="badge-success">OK</span></td></tr>
+                            <tr><td>03:22</td><td>—</td><td>45.12.33.10</td><td><span class="badge-warn" style="color:#ff6b6b;border-color:rgba(255,107,107,0.3);">Отклонено</span></td></tr>
+                            <tr><td>18:30 (вчера)</td><td>Ольга В.</td><td>192.168.1.45</td><td><span class="badge-success">OK</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="dash-panel">
+                    <div class="panel-header"><h3 class="panel-title">Настройки доступа</h3></div>
+                    <ul class="activity-feed" style="font-size: 15px;">
+                        <li style="justify-content: space-between; align-items: center;">
+                            <div><div>Двухфакторная аутентификация</div><div style="font-size: 11px; color: var(--muted);">Обязательна для всех админов</div></div>
+                            <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: var(--gold);">
+                        </li>
+                        <li style="justify-content: space-between; align-items: center;">
+                            <div><div>Ограничение по IP</div><div style="font-size: 11px; color: var(--muted);">Только корпоративная сеть</div></div>
+                            <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: var(--gold);">
+                        </li>
+                        <li style="justify-content: space-between; align-items: center;">
+                            <div><div>Автоматический выход</div><div style="font-size: 11px; color: var(--muted);">Через 30 минут бездействия</div></div>
+                            <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: var(--gold);">
+                        </li>
+                        <li style="justify-content: space-between; align-items: center;">
+                            <div><div>Уведомления о входе</div><div style="font-size: 11px; color: var(--muted);">При новых устройствах</div></div>
+                            <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: var(--gold);">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="dash-panel" style="margin-top: 24px;">
+                <div class="panel-header"><h3 class="panel-title">Активные сессии</h3></div>
+                <table class="dash-table">
+                    <thead><tr><th>Устройство</th><th>Локация</th><th>Активна с</th><th>Действие</th></tr></thead>
+                    <tbody>
+                        <tr><td>MacBook Pro · Chrome</td><td>Москва</td><td>2 часа</td><td><a href="#" style="color:#ff6b6b;font-size:12px;">Завершить</a></td></tr>
+                        <tr><td>iPhone 15 · Safari</td><td>Анапа</td><td>45 минут</td><td><a href="#" style="color:#ff6b6b;font-size:12px;">Завершить</a></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
     }
 
     // ================= 9. ЖИВАЯ ЛЕНТА =================
@@ -423,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
         feedInterval = null;
     }
 
-    // ================= 10. ESC ДЛЯ ЗАКРЫТИЯ ВСЕХ ОКОН =================
+    // ================= 10. ESC =================
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             if (authModal && authModal.classList.contains('active')) closeAuth();
@@ -432,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ================= 11. АНИМАЦИИ ПОЯВЛЕНИЯ (REVEAL) =================
+    // ================= 11. REVEAL =================
     const revealEls = document.querySelectorAll('.section-title, .section-desc, .feature-card, .zone-card, .econ-table-wrapper, .econ-quote');
     revealEls.forEach(el => el.classList.add('reveal'));
     const observer = new IntersectionObserver((entries) => {
