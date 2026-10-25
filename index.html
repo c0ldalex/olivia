@@ -6,17 +6,19 @@
     <title>Тихая бухта · Иммерсивное пространство Alean Olivia 5*</title>
     <meta name="description" content="Первое в России иммерсивное пространство о дельфинах. Наука, отдых и медиа в отеле Alean Family Olivia 5*.">
     
-    <!-- Шрифты Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Подключение CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- Фоновая анимация (частицы) -->
+    <!-- БАННЕР ТЕСТОВОЙ ВЕРСИИ -->
+    <div class="test-badge">
+        <span class="dot-pulse"></span> TEST BUILD v0.9.4 (PRE-ALPHA)
+    </div>
+
     <div class="ocean-bg"></div>
     <div class="particles" id="particles"></div>
 
@@ -34,8 +36,8 @@
         
         <nav class="nav-links">
             <a href="#features">Экосистема</a>
+            <a href="#schedule">Расписание</a>
             <a href="#zones">Пространство</a>
-            <a href="#events">События</a>
             <a href="#economics">Экономика</a>
             <a href="#partners" class="btn-outline">Стать партнером</a>
         </nav>
@@ -59,7 +61,6 @@
                 </div>
             </div>
 
-            <!-- Плашки со статистикой -->
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-num">400<span class="stat-unit">м²</span></div>
@@ -85,7 +86,6 @@
             </div>
 
             <div class="features-grid">
-                <!-- Опора 1 -->
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -93,21 +93,60 @@
                     <h3 class="feature-title">Для гостя</h3>
                     <p class="feature-text">Интерактив, VR и квесты для детей. Родители отдыхают в зоне тишины. Взрослые слушают лекции. Каждый находит свое впечатление.</p>
                 </div>
-                <!-- Опора 2 -->
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     </div>
                     <h3 class="feature-title">Для науки и ESG</h3>
-                    <p class="feature-text">Мы внедряем Citizen Science. Гости через планшеты помогают ученым ИПЭЭ РАН классифицировать данные о дельфинах. Отдых превращается в помощь.</p>
+                    <p class="feature-text">Мы внедряем Citizen Science. Гости через планшеты помогают ученым ИПЭЭ РАН классифицировать данные о дельфинах.</p>
                 </div>
-                <!-- Опора 3 -->
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
                     </div>
                     <h3 class="feature-title">Для медиа и PR</h3>
-                    <p class="feature-text">50+ инфоповодов в год. Пресс-конференции, резиденции художников, кинопоказы. Это реклама, которую невозможно купить за деньги.</p>
+                    <p class="feature-text">50+ инфоповодов в год. Пресс-конференции, резиденции художников, кинопоказы. Реклама, которую не купить за деньги.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ИНТЕРАКТИВНОЕ РАСПИСАНИЕ -->
+        <section class="schedule-section" id="schedule">
+            <div class="section-header">
+                <span class="eyebrow">Жизнь в бухте</span>
+                <h2 class="section-title">Один день. <em>Четыре состояния.</em></h2>
+                <p class="section-desc">Пространство меняет свой ритм вместе с вами. Нажмите на время суток, чтобы узнать, что здесь происходит.</p>
+            </div>
+
+            <div class="schedule-container">
+                <div class="schedule-tabs">
+                    <button class="schedule-tab active" data-time="morning">Утро (07:00–12:00)</button>
+                    <button class="schedule-tab" data-time="day">День (12:00–18:00)</button>
+                    <button class="schedule-tab" data-time="evening">Вечер (18:00–23:00)</button>
+                    <button class="schedule-tab" data-time="night">Ночь (23:00–07:00)</button>
+                </div>
+
+                <div class="schedule-content">
+                    <div class="schedule-panel active" id="morning">
+                        <div class="schedule-icon">🌅</div>
+                        <h3 class="schedule-title">Йога и тишина</h3>
+                        <p class="schedule-text">Пока дети спят, взрослые занимаются йогой у воды. В зоне тишины играет медитативная музыка. Лаборатория закрыта, здесь царит покой и аромат свежего кофе.</p>
+                    </div>
+                    <div class="schedule-panel" id="day">
+                        <div class="schedule-icon">☀️</div>
+                        <h3 class="schedule-title">Наука и игры</h3>
+                        <p class="schedule-text">Пик активности. В Лаборатории проходят научные шоу и VR-квесты для детей. Родители отдыхают на пуфах. Сцена работает как лекторий.</p>
+                    </div>
+                    <div class="schedule-panel" id="evening">
+                        <div class="schedule-icon">🌇</div>
+                        <h3 class="schedule-title">Кино и встречи</h3>
+                        <p class="schedule-text">Сцена-трансформер превращается в кинозал. Показ документального кино о море, обсуждение с режиссером или лекция ученого. Бар открывает дегустации.</p>
+                    </div>
+                    <div class="schedule-panel" id="night">
+                        <div class="schedule-icon">🌙</div>
+                        <h3 class="schedule-title">Свадьбы и события</h3>
+                        <p class="schedule-text">Пространство доступно для аренды. Звучит живая музыка, проходят банкеты и закрытые вечеринки. Свет становится приглушенным и атмосферным.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -124,67 +163,15 @@
             <div class="section-header">
                 <span class="eyebrow">Архитектура</span>
                 <h2 class="section-title">Шесть зон. <em>Один маршрут.</em></h2>
-                <p class="section-desc">Пространство, которое ведёт гостя от тишины к открытию. Каждая зона работает на своё настроение.</p>
             </div>
 
             <div class="zones-grid">
-                <div class="zone-card">
-                    <div class="zone-num">01</div>
-                    <h3 class="zone-name">Погружение</h3>
-                    <p class="zone-desc">Приглушённый свет, звук моря, аромат соли. Живая карта экспедиций: где прямо сейчас работают учёные.</p>
-                </div>
-                <div class="zone-card">
-                    <div class="zone-num">02</div>
-                    <h3 class="zone-name">Дельфины</h3>
-                    <p class="zone-desc">Арт-объект с символами Alean и Фонда. Свет реагирует на приближение. Жетоны у основания идут в фонд.</p>
-                </div>
-                <div class="zone-card">
-                    <div class="zone-num">03</div>
-                    <h3 class="zone-name">Живые истории</h3>
-                    <p class="zone-desc">Медиа-экран с реальными историями сотрудников Alean из экспедиций. Обновляется ежемесячно.</p>
-                </div>
-                <div class="zone-card">
-                    <div class="zone-num">04</div>
-                    <h3 class="zone-name">Юный исследователь</h3>
-                    <p class="zone-desc">VR, сенсорные столы, микроскопы. Днём — дети, вечером — лекции для взрослых.</p>
-                </div>
-                <div class="zone-card">
-                    <div class="zone-num">05</div>
-                    <h3 class="zone-name">Скамейки у воды</h3>
-                    <p class="zone-desc">Полумрак, шум воды, мягкие пуфы. 15 минут покоя, пока ребёнок занят в лаборатории.</p>
-                </div>
-                <div class="zone-card">
-                    <div class="zone-num">06</div>
-                    <h3 class="zone-name">Сцена-трансформер</h3>
-                    <p class="zone-desc">За 30 минут превращается в кинозал, лекторий, танцпол или банкетный зал.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- СОБЫТИЯ -->
-        <section class="events-section" id="events">
-            <div class="section-header">
-                <span class="eyebrow">Форматы</span>
-                <h2 class="section-title">Что здесь <em>происходит</em></h2>
-            </div>
-
-            <div class="events-grid">
-                <div class="event-card">
-                    <h3 class="event-title">Лекции и кинопоказы</h3>
-                    <p class="event-desc">Учёные, путешественники, документальное кино о море. Каждую неделю — новый спикер и обсуждение.</p>
-                </div>
-                <div class="event-card">
-                    <h3 class="event-title">Свадьбы и праздники</h3>
-                    <p class="event-desc">Церемонии у воды, банкеты до 80 гостей. Трансформация под любой сценарий — от романтики до вечеринки.</p>
-                </div>
-                <div class="event-card">
-                    <h3 class="event-title">Детские программы</h3>
-                    <p class="event-desc">Квесты, научные шоу, мастер-классы. Родители отдыхают в зоне тишины, пока дети заняты.</p>
-                </div>
-                <div class="event-card">
-                    <h3 class="event-title">Съёмки и пресса</h3>
-                    <p class="event-desc">Готовая локация для фотосессий, интервью и съёмок. Аккредитация для СМИ — круглый год.</p>
-                </div>
+                <div class="zone-card"><div class="zone-num">01</div><h3 class="zone-name">Погружение</h3><p class="zone-desc">Приглушённый свет, звук моря, аромат соли. Живая карта экспедиций.</p></div>
+                <div class="zone-card"><div class="zone-num">02</div><h3 class="zone-name">Дельфины</h3><p class="zone-desc">Арт-объект с символами Alean и Фонда. Жетоны идут в фонд.</p></div>
+                <div class="zone-card"><div class="zone-num">03</div><h3 class="zone-name">Живые истории</h3><p class="zone-desc">Медиа-экран с реальными историями сотрудников из экспедиций.</p></div>
+                <div class="zone-card"><div class="zone-num">04</div><h3 class="zone-name">Юный исследователь</h3><p class="zone-desc">VR, сенсорные столы, микроскопы. Днём дети, вечером лекции.</p></div>
+                <div class="zone-card"><div class="zone-num">05</div><h3 class="zone-name">Скамейки у воды</h3><p class="zone-desc">Полумрак, шум воды, мягкие пуфы для отдыха родителей.</p></div>
+                <div class="zone-card"><div class="zone-num">06</div><h3 class="zone-name">Сцена-трансформер</h3><p class="zone-desc">За 30 минут превращается в кинозал, лекторий или банкетный зал.</p></div>
             </div>
         </section>
 
@@ -197,48 +184,14 @@
 
             <div class="econ-layout">
                 <div class="econ-table-wrapper">
-                    <div class="econ-row">
-                        <span class="econ-label">CAPEX (Запуск)</span>
-                        <span class="econ-value">37,4 млн ₽</span>
-                    </div>
-                    <div class="econ-row">
-                        <span class="econ-label">OPEX (в месяц)</span>
-                        <span class="econ-value">700 тыс. ₽</span>
-                    </div>
-                    <div class="econ-row">
-                        <span class="econ-label">Прямая выручка</span>
-                        <span class="econ-value">800 тыс. ₽/мес</span>
-                    </div>
-                    <div class="econ-row highlight-row">
-                        <span class="econ-label">Прирост ADR (при +1000 ₽)</span>
-                        <span class="econ-value">+14,7 млн ₽/мес</span>
-                    </div>
+                    <div class="econ-row"><span class="econ-label">CAPEX (Запуск)</span><span class="econ-value">37,4 млн ₽</span></div>
+                    <div class="econ-row"><span class="econ-label">OPEX (в месяц)</span><span class="econ-value">700 тыс. ₽</span></div>
+                    <div class="econ-row"><span class="econ-label">Прямая выручка</span><span class="econ-value">800 тыс. ₽/мес</span></div>
+                    <div class="econ-row highlight-row"><span class="econ-label">Прирост ADR</span><span class="econ-value">+14,7 млн ₽/мес</span></div>
                 </div>
                 <div class="econ-quote">
-                    <p>«Мы не просим деньги на красивую комнату. Мы создаём актив, который окупается за один сезон и работает десятилетиями».</p>
+                    <p>«Мы не просим деньги на комнату. Мы создаём актив, который окупается за один сезон».</p>
                     <span class="econ-roi">Окупаемость — 1 сезон</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- МЕДИА / PR -->
-        <section class="media-section" id="media">
-            <div class="section-header">
-                <span class="eyebrow">Медиа</span>
-                <h2 class="section-title">Поводы для <em>СМИ</em></h2>
-            </div>
-
-            <div class="media-layout">
-                <ul class="pr-list">
-                    <li><strong>Открытие:</strong> Пресс-конференция с гендиректором и учёными</li>
-                    <li><strong>Резиденции:</strong> Художники создают арт-объекты прямо в отеле</li>
-                    <li><strong>Лекции:</strong> Учёные ИПЭЭ РАН выступают для гостей ежемесячно</li>
-                    <li><strong>Кинопоказы:</strong> Премьеры фильмов о море под открытым небом</li>
-                    <li><strong>ESG-отчёты:</strong> Публикация цифр (сколько собрано, сколько жетонов)</li>
-                </ul>
-                <div class="media-stat-box">
-                    <div class="media-big-num">173</div>
-                    <div class="media-stat-label">публикации о проекте с дельфинами<br>за 9 месяцев 2026 года</div>
                 </div>
             </div>
         </section>
@@ -247,7 +200,7 @@
         <section class="cta-section" id="partners">
             <div class="cta-content">
                 <h2 class="cta-title">Место, куда <em>хочется вернуться</em></h2>
-                <p class="cta-desc">Открытие — 2027, Alean Family Olivia 5*. Уже сейчас мы собираем партнёров, идеи и события для первого сезона.</p>
+                <p class="cta-desc">Открытие — 2027, Alean Family Olivia 5*.</p>
                 <a href="mailto:hello@tihayabuhta.ru" class="btn-primary">Связаться с нами</a>
             </div>
         </section>
@@ -259,29 +212,81 @@
             <div class="footer-brand-col">
                 <div class="footer-logo">Тихая бухта</div>
                 <p>Alean Collection · Alean Family Olivia 5* · Анапа · 2027</p>
-                <p class="footer-quote">«Инвестируйте в будущее, которое запомнят».</p>
             </div>
             <div class="footer-links-col">
                 <h4>Проект</h4>
                 <a href="#features">Экосистема</a>
+                <a href="#schedule">Расписание</a>
                 <a href="#zones">Пространство</a>
-                <a href="#events">События</a>
-                <a href="#economics">Экономика</a>
             </div>
             <div class="footer-links-col">
-                <h4>Контакты</h4>
-                <a href="mailto:hello@tihayabuhta.ru">hello@tihayabuhta.ru</a>
-                <a href="mailto:press@tihayabuhta.ru">press@tihayabuhta.ru</a>
-                <a href="#">Телеграм-канал</a>
+                <h4>Для разработчиков</h4>
+                <a href="#" class="admin-trigger" id="adminTrigger">Открыть Админ-Панель (Dev)</a>
+                <a href="#">GitHub Repository</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2027 Alean Collection · Все права защищены · Проект пространства «Тихая бухта»</p>
+            <p>© 2027 Alean Collection · Проект пространства «Тихая бухта»</p>
             <p class="footer-dev">Разработка: АФ СочиГУ</p>
         </div>
     </footer>
 
-    <!-- Подключение JS -->
+    <!-- ================= СКРЫТАЯ АДМИН-ПАНЕЛЬ ================= -->
+    <div class="admin-overlay" id="adminPanel">
+        <div class="admin-dashboard">
+            <div class="admin-header">
+                <div class="admin-title">
+                    <span class="dot-pulse"></span> Dashboard: Silent Bay
+                </div>
+                <button class="admin-close" id="adminClose">✕</button>
+            </div>
+            
+            <div class="admin-stats-grid">
+                <div class="admin-stat-card">
+                    <div class="admin-stat-label">Live Visitors</div>
+                    <div class="admin-stat-value">1,248</div>
+                    <div class="admin-stat-trend up">↑ 12%</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-label">Booking Conversion</div>
+                    <div class="admin-stat-value">4.8%</div>
+                    <div class="admin-stat-trend up">↑ 0.4%</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-label">Projected ROI</div>
+                    <div class="admin-stat-value">142%</div>
+                    <div class="admin-stat-trend up">↑ 8%</div>
+                </div>
+            </div>
+
+            <div class="admin-charts-area">
+                <div class="admin-chart-box">
+                    <div class="admin-chart-title">Traffic by Zone (Live)</div>
+                    <div class="bar-chart">
+                        <div class="bar-item"><div class="bar-fill" style="width: 80%;"><span>80%</span></div><div class="bar-label">Лаборатория</div></div>
+                        <div class="bar-item"><div class="bar-fill" style="width: 65%;"><span>65%</span></div><div class="bar-label">Сцена</div></div>
+                        <div class="bar-item"><div class="bar-fill" style="width: 40%;"><span>40%</span></div><div class="bar-label">Тишина</div></div>
+                    </div>
+                </div>
+                
+                <div class="admin-chart-box">
+                    <div class="admin-chart-title">Live Activity Feed</div>
+                    <ul class="activity-feed" id="activityFeed">
+                        <li><span>10:42</span> User from Moscow viewed "Dolphins" zone</li>
+                        <li><span>10:41</span> New Partner Inquiry received</li>
+                        <li><span>10:38</span> VR Module #2 initialized successfully</li>
+                        <li><span>10:35</span> System Check: All endpoints ONLINE</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="admin-footer">
+                <p>Build v0.9.4-alpha | Environment: Test</p>
+                <div class="admin-status">Server Status: <span class="status-ok">Stable</span></div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/script.js"></script>
 </body>
 </html>
