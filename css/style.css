@@ -357,6 +357,94 @@ section {
     margin-top: 12px;
 }
 
+/* ================= АРТ-ОБЪЕКТ (ЖЕМЧУЖИНА) ================= */
+.fountain-section {
+    padding-top: 40px;
+    background: linear-gradient(180deg, transparent, rgba(10,45,64,0.2), transparent);
+    overflow: hidden;
+}
+
+.fountain-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fountain-svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6));
+}
+
+/* Анимация парения золотой ленты */
+.ribbon-gold {
+    transform-origin: center;
+    animation: floatGold 8s ease-in-out infinite;
+}
+
+/* Анимация парения бирюзовой ленты */
+.ribbon-aqua {
+    transform-origin: center;
+    animation: floatAqua 10s ease-in-out infinite;
+}
+
+/* Анимация пульсации жемчужины */
+.pearl {
+    transform-origin: center;
+    animation: pulsePearl 4s ease-in-out infinite;
+}
+
+@keyframes floatGold {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.02); }
+}
+
+@keyframes floatAqua {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(10px) scale(1.01); }
+}
+
+@keyframes pulsePearl {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.05); filter: brightness(1.2); }
+}
+
+/* Легенда под фонтаном */
+.fountain-legend {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(201, 169, 110, 0.1);
+    border-radius: 50px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 1px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot.gold { background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+.dot.aqua { background: var(--aqua); box-shadow: 0 0 10px var(--aqua); }
+.dot.white { background: var(--moon); box-shadow: 0 0 10px var(--moon); }
+
 /* ================= МАНИФЕСТ ================= */
 .manifesto {
     text-align: center;
@@ -703,7 +791,7 @@ section {
 
 @media (max-width: 768px) {
     .navbar { padding: 16px 20px; }
-    .nav-links { display: none; /* Временно скрываем на мобильных, позже сделаем бургер */ }
+    .nav-links { display: none; }
     section { padding: 80px 20px; }
     .hero-title { font-size: 60px; }
     .stats-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -712,85 +800,7 @@ section {
     .media-big-num { font-size: 80px; }
     .footer-grid { grid-template-columns: 1fr; gap: 40px; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-}
-/* ================= АРТ-ОБЪЕКТ (ФОНТАН) ================= */
-.fountain-section {
-    padding-top: 40px;
-    background: linear-gradient(180deg, transparent, rgba(10,45,64,0.2), transparent);
-    overflow: hidden;
-}
-
-.fountain-container {
-    position: relative;
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.fountain-svg {
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6));
-}
-
-/* Анимация левого дельфина */
-.dolphin-a {
-    transform-origin: 250px 200px;
-    animation: floatAlean 6s ease-in-out infinite;
-}
-
-/* Анимация правого дельфина */
-.dolphin-f {
-    transform-origin: 550px 200px;
-    animation: floatFund 6s ease-in-out infinite;
-}
-
-@keyframes floatAlean {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    50% { transform: translate(-5px, -15px) rotate(3deg); }
-}
-
-@keyframes floatFund {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    50% { transform: translate(5px, -20px) rotate(-3deg); }
-}
-
-/* Легенда под фонтаном */
-.fountain-legend {
-    display: flex;
-    gap: 30px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(201, 169, 110, 0.1);
-    border-radius: 50px;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: var(--text);
-    letter-spacing: 1px;
-}
-
-.dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.dot.gold { background: var(--gold); box-shadow: 0 0 10px var(--gold); }
-.dot.aqua { background: var(--aqua); box-shadow: 0 0 10px var(--aqua); }
-.dot.white { background: var(--moon); box-shadow: 0 0 10px var(--moon); }
-
-@media (max-width: 768px) {
+    
     .fountain-legend {
         flex-direction: column;
         gap: 12px;
