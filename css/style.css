@@ -716,12 +716,13 @@ section {
 /* ================= АРТ-ОБЪЕКТ (ФОНТАН) ================= */
 .fountain-section {
     padding-top: 40px;
-    background: linear-gradient(180deg, transparent, rgba(10,45,64,0.3), transparent);
+    background: linear-gradient(180deg, transparent, rgba(10,45,64,0.2), transparent);
+    overflow: hidden;
 }
 
 .fountain-container {
     position: relative;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -731,52 +732,70 @@ section {
 .fountain-svg {
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6));
 }
 
-/* Анимация покачивания дельфинов */
-.dolphin-left {
-    transform-origin: 300px 280px;
-    animation: floatLeft 6s ease-in-out infinite;
+/* Анимация левого дельфина (Плавное покачивание) */
+.dolphin-a {
+    transform-origin: 250px 400px;
+    animation: floatAlean 7s ease-in-out infinite;
 }
 
-.dolphin-right {
-    transform-origin: 500px 280px;
-    animation: floatRight 6s ease-in-out infinite;
+/* Анимация правого дельфина (В противофазе) */
+.dolphin-f {
+    transform-origin: 550px 400px;
+    animation: floatFund 7s ease-in-out infinite;
 }
 
-@keyframes floatLeft {
+@keyframes floatAlean {
     0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
 }
 
-@keyframes floatRight {
+@keyframes floatFund {
     0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-15px) rotate(2deg); }
+    50% { transform: translateY(-12px) rotate(-2deg); }
 }
 
-/* Анимация планеты (легкое парение) */
-.fountain-svg circle[fill="url(#planetGrad)"] {
-    animation: floatPlanet 8s ease-in-out infinite;
+/* Легенда под фонтаном */
+.fountain-legend {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(201, 169, 110, 0.1);
+    border-radius: 50px;
 }
 
-@keyframes floatPlanet {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 1px;
 }
 
-.fountain-label {
-    margin-top: 20px;
-    font-family: var(--font-body);
-    font-size: 11px;
-    color: var(--gold);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    opacity: 0.7;
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
 }
+
+.dot.gold { background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+.dot.aqua { background: var(--aqua); box-shadow: 0 0 10px var(--aqua); }
+.dot.white { background: var(--moon); box-shadow: 0 0 10px var(--moon); }
 
 @media (max-width: 768px) {
-    .fountain-container {
-        padding: 0 20px;
+    .fountain-legend {
+        flex-direction: column;
+        gap: 12px;
+        border-radius: 16px;
+        width: 90%;
+        align-items: center;
     }
 }
