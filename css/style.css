@@ -413,6 +413,7 @@ section {
     border-radius: 50%;
     border: 1px solid rgba(201, 169, 110, 0.2);
     transition: var(--transition);
+    flex-shrink: 0;
 }
 
 .feature-card:hover .feature-icon {
@@ -422,9 +423,13 @@ section {
     box-shadow: 0 0 20px rgba(201, 169, 110, 0.4);
 }
 
+/* ЖЕСТКАЯ ФИКСАЦИЯ РАЗМЕРА ИКОНОК */
 .feature-icon svg {
-    width: 32px;
-    height: 32px;
+    width: 32px !important;
+    height: 32px !important;
+    max-width: 32px;
+    max-height: 32px;
+    display: block;
 }
 
 .feature-title {
@@ -781,7 +786,7 @@ section {
 /* ================= АДАПТИВ ================= */
 @media (max-width: 1024px) {
     .zones-grid { grid-template-columns: repeat(2, 1fr); }
-    .features-grid { grid-template-columns: 1fr; gap: 24px; } /* Добавлено для новых карточек */
+    .features-grid { grid-template-columns: 1fr; gap: 24px; }
     .econ-layout, .media-layout { grid-template-columns: 1fr; gap: 40px; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
 }
