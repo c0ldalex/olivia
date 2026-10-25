@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ================= 4. АВТОРИЗАЦИЯ =================
+    // ================= 4. АВТОРИЗАЦИЯ (ОСНОВНАЯ) =================
     const authModal = document.getElementById('authModal');
     const loginTrigger = document.getElementById('loginTrigger');
     const adminTriggerFooter = document.getElementById('adminTriggerFooter');
@@ -101,32 +101,65 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ================= 5. ДАШБОРД =================
+    // ================= 5. АВТОРИЗАЦИЯ (GM ACCESS) =================
+    const gmAccessBtn = document.getElementById('gmAccessBtn');
+    const gmAuthModal = document.getElementById('gmAuthModal');
+    const gmAuthClose = document.getElementById('gmAuthClose');
+    const gmLoginForm = document.getElementById('gmLoginForm');
+    const gmPassword = document.getElementById('gmPassword');
+    const gmError = document.getElementById('gmError');
+
+    if (gmAccessBtn) {
+        gmAccessBtn.addEventListener('click', () => {
+            gmAuthModal.classList.add('active');
+            gmError.classList.remove('show');
+            gmPassword.value = '';
+            setTimeout(() => gmPassword.focus(), 300);
+        });
+    }
+
+    if (gmAuthClose) {
+        gmAuthClose.addEventListener('click', () => gmAuthModal.classList.remove('active'));
+    }
+    if (gmAuthModal) {
+        gmAuthModal.addEventListener('click', (e) => {
+            if (e.target === gmAuthModal) gmAuthModal.classList.remove('active');
+        });
+    }
+
+    if (gmLoginForm) {
+        gmLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (gmPassword.value === 'admin2027') {
+                gmAuthModal.classList.remove('active');
+                renderGM_Panel();
+            } else {
+                gmError.classList.add('show');
+                gmPassword.value = '';
+                gmPassword.focus();
+            }
+        });
+    }
+
+    // ================= 6. ДАШБОРД =================
     const dashboardPanel = document.getElementById('dashboardPanel');
     const dashboardClose = document.getElementById('dashboardClose');
     const logoutBtn = document.getElementById('logoutBtn');
     const dashNavItems = document.querySelectorAll('.dash-nav-item');
-    
-    // Находим контейнер, куда рендерить контент (это main внутри dashboard)
     const dashMain = document.querySelector('.dash-main');
     
-    // Сохраняем исходный HTML вкладки "Обзор"
     const originalOverviewHTML = dashMain.innerHTML;
-
-    let currentTab = 'overview';
 
     function openDashboard() {
         dashboardPanel.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        // При открытии всегда показываем "Обзор"
-        currentTab = 'overview';
-        dashMain.innerHTML = originalOverviewHTML;
-        attachOverviewEvents();
-        
-        // Подсвечиваем первую вкладку
+        // Сброс на "Обзор"
         dashNavItems.forEach(item => item.classList.remove('active'));
         if(dashNavItems[0]) dashNavItems[0].classList.add('active');
+        
+        dashMain.innerHTML = originalOverviewHTML;
+        attachOverviewEvents();
         
         startLiveFeed();
     }
@@ -145,35 +178,23 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => {
             const tabText = item.textContent.trim();
             
-            // Подсветка
             dashNavItems.forEach(nav => nav.classList.remove('active'));
             item.classList.add('active');
-
-            // Остановка ленты, чтобы не сбивала график
             stopLiveFeed();
 
-            // Переключение контента
             if (tabText.includes('Обзор')) {
                 dashMain.innerHTML = originalOverviewHTML;
                 attachOverviewEvents();
                 startLiveFeed();
             } 
-            else if (tabText.includes('Зоны')) {
-                renderZones();
-            } 
-            else if (tabText.includes('События')) {
-                renderEvents();
-            } 
-            else if (tabText.includes('Финансы')) {
-                renderFinance();
-            } 
-            else if (tabText.includes('Настройки')) {
-                renderSettings();
-            }
+            else if (tabText.includes('Зоны')) { renderZones(); } 
+            else if (tabText.includes('События')) { renderEvents(); } 
+            else if (tabText.includes('Финансы')) { renderFinance(); } 
+            else if (tabText.includes('Настройки')) { renderSettings(); }
         });
     });
 
-    // ================= 6. КОНТЕНТ ВКЛАДОК =================
+    // ================= 7. ФУНКЦИИ РЕНДЕРА ВКЛАДОК =================
 
     function attachOverviewEvents() {
         const newClose = document.getElementById('dashboardClose');
@@ -298,36 +319,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('btnClose').onclick = closeDashboard;
     }
 
-    // ================= 7. GM ACCESS (СЕКРЕТНАЯ ПАНЕЛЬ) =================
-    // Добавляем кнопку GM Access в сайдбар
-    const dashSidebarFooter = document.querySelector('.dash-sidebar-footer');
-    if (dashSidebarFooter) {
-        const gmBtn = document.createElement('button');
-        gmBtn.innerHTML = '👑 GM Access';
-        gmBtn.style.cssText = 'margin-top: 12px; width: 100%; padding: 12px; background: rgba(201,169,110,0.1); border: 1px solid var(--gold); color: var(--gold); border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; letter-spacing: 1px; transition: 0.3s;';
-        gmBtn.onmouseover = () => gmBtn.style.background = 'rgba(201,169,110,0.2)';
-        gmBtn.onmouseout = () => gmBtn.style.background = 'rgba(201,169,110,0.1)';
-        dashSidebarFooter.insertBefore(gmBtn, dashSidebarFooter.lastElementChild);
-
-        gmBtn.addEventListener('click', () => {
-            const pass = prompt('🔒 Секретный доступ (General Manager):\nВведите код:');
-            if (pass === 'admin2027') {
-                renderGM_Panel();
-            } else if (pass !== null) {
-                alert('❌ ACCESS DENIED. Неверный код.');
-            }
-        });
-    }
-
+    // ================= 8. РЕНДЕР "GOD MODE" =================
     function renderGM_Panel() {
-        // Убираем подсветку со всех вкладок, так как это не вкладка
         dashNavItems.forEach(nav => nav.classList.remove('active'));
         stopLiveFeed();
         
         dashMain.innerHTML = `
             <header class="dash-header">
                 <div>
-                    <h1 class="dash-title" style="color: #ff6b6b; text-shadow: 0 0 10px rgba(255,107,107,0.5);">GOD MODE</h1>
+                    <h1 class="dash-title" style="color: #ff6b6b; text-shadow: 0 0 15px rgba(255,107,107,0.6);">GOD MODE</h1>
                     <p class="dash-subtitle">Уровень доступа: General Manager</p>
                 </div>
                 <div class="dash-header-actions">
@@ -339,20 +339,20 @@ document.addEventListener('DOMContentLoaded', () => {
             </header>
             
             <div class="dash-grid">
-                <div class="dash-panel" style="border-color: rgba(255,107,107,0.3);">
-                    <div class="panel-header"><h3 class="panel-title">Системные команды</h3></div>
+                <div class="dash-panel" style="border-color: rgba(255,107,107,0.4); box-shadow: 0 0 20px rgba(255,107,107,0.1);">
+                    <div class="panel-header"><h3 class="panel-title" style="color: #ff6b6b;">Системные команды</h3></div>
                     <p style="color: var(--muted); font-size: 13px; margin-bottom: 20px;">Внимание: данные действия необратимы.</p>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('💥 База данных сброшена. (Шутка. Это тестовая версия)')">💥 Сбросить базу данных</button>
-                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('📉 Акции упали на 99%. (Шутка)')">📉 Обнулить бюджет проекта</button>
-                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('🚀 Ракета запущена в сторону Анапы. (Шутка)')">🚀 Запустить протокол «Оливия»</button>
+                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('💥 БАЗА ДАННЫХ СБРОШЕНА.\\nВсе бронирования удалены. (Это тестовая версия, не переживай)')">💥 Сбросить базу данных</button>
+                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('📉 БЮДЖЕТ ОБНУЛЕН.\\nПроект заморожен. (Шутка. Деньги на месте)')">📉 Обнулить бюджет проекта</button>
+                        <button class="dash-logout" style="width: 100%; text-align: left; padding: 16px;" onclick="alert('🚀 ПРОТОКОЛ ОЛИВИЯ ЗАПУЩЕН.\\nОтель готов к открытию на год раньше срока.')">🚀 Запустить протокол «Оливия»</button>
                     </div>
                 </div>
 
-                <div class="dash-panel" style="border-color: rgba(255,107,107,0.3);">
-                    <div class="panel-header"><h3 class="panel-title">Логи ядра</h3></div>
-                    <div style="font-family: 'Courier New', monospace; font-size: 12px; color: #ff6b6b; line-height: 1.8; opacity: 0.8;">
-                        <div>[SUCCESS] GM authenticated</div>
+                <div class="dash-panel" style="border-color: rgba(255,107,107,0.4);">
+                    <div class="panel-header"><h3 class="panel-title" style="color: #ff6b6b;">Логи ядра</h3></div>
+                    <div style="font-family: 'Courier New', monospace; font-size: 12px; color: #ff6b6b; line-height: 1.8; opacity: 0.9; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
+                        <div>[SUCCESS] GM authenticated. Welcome, Boss.</div>
                         <div>[WARN] Unauthorized attempt blocked (IP: 192.168.1.5)</div>
                         <div>[INFO] Overriding safety protocols...</div>
                         <div>[INFO] Connecting to mainframe...</div>
@@ -361,12 +361,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
-        
-        // Возврат назад
         document.getElementById('btnClose').onclick = closeDashboard;
     }
 
-    // ================= 8. ЖИВАЯ ЛЕНТА =================
+    // ================= 9. ЖИВАЯ ЛЕНТА =================
     let feedInterval = null;
     const fakeActions = [
         "User from St. Petersburg opened 3D Tour",
@@ -404,15 +402,16 @@ document.addEventListener('DOMContentLoaded', () => {
         feedInterval = null;
     }
 
-    // ================= 9. ESC =================
+    // ================= 10. ESC ДЛЯ ЗАКРЫТИЯ ВСЕХ ОКОН =================
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             if (authModal && authModal.classList.contains('active')) closeAuth();
+            if (gmAuthModal && gmAuthModal.classList.contains('active')) gmAuthModal.classList.remove('active');
             if (dashboardPanel && dashboardPanel.classList.contains('active')) closeDashboard();
         }
     });
 
-    // ================= 10. REVEAL =================
+    // ================= 11. АНИМАЦИИ ПОЯВЛЕНИЯ (REVEAL) =================
     const revealEls = document.querySelectorAll('.section-title, .section-desc, .feature-card, .zone-card, .econ-table-wrapper, .econ-quote');
     revealEls.forEach(el => el.classList.add('reveal'));
     const observer = new IntersectionObserver((entries) => {
