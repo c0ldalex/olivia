@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ALEAN SEA — твой дельфин в Чёрном море</title>
+  <meta name="description" content="Интерактивная игра с виртуальным дельфином для гостей Alean Family Olivia. Концепт-прототип.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🐬</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- СТАРТОВЫЙ ЭКРАН -->
+    <section id="screen-start" class="screen active sea-bg">
+      <div class="start-inner">
+        <div class="logo-badge">ALEAN <span>SEA</span></div>
+        <h1>Твоё море.<br>Твой дельфин.</h1>
+        <p class="lead">Играй, исследуй Чёрное море, заботься о природе — и вырасти настоящую легенду.</p>
+        <div class="start-art" id="start-art"></div>
+        <button class="btn primary big glow" onclick="startOnboarding(); show('#screen-onboarding')">Начать приключение</button>
+        <p class="disclaimer">Концепт-прототип гостевого сервиса Alean Collection. Не является официальным продуктом компании.</p>
+      </div>
+    </section>
+
+    <!-- ОНБОРДИНГ -->
+    <section id="screen-onboarding" class="screen sea-bg">
+      <div id="ob-slides"></div>
+    </section>
+
+    <!-- ГЛАВНАЯ / МОЙ ДЕЛЬФИН -->
+    <section id="screen-home" class="screen sea-bg">
+      <header class="topbar">
+        <div class="logo-mini">ALEAN <span>SEA</span></div>
+        <div class="pill">💠 <b id="stat-pearls">0</b></div>
+      </header>
+      <div class="home-card">
+        <div id="home-dolphin" class="dolphin-wrap"></div>
+        <h2 id="home-name">Дельфин</h2>
+        <div class="chips">
+          <span class="chip" id="home-stage">Стадия</span>
+          <span class="chip">Настроение: <b id="stat-mood-ic">🙂</b> <span id="stat-mood"></span></span>
+        </div>
+        <div class="xp-bar"><i id="home-xp-bar"></i></div>
+        <div class="xp-text" id="home-xp-text"></div>
+        <div class="btn-row">
+          <button class="btn" id="btn-pet">Погладить</button>
+          <button class="btn" id="btn-feed">Покормить −5 💠</button>
+        </div>
+        <button class="btn primary wide" id="btn-play">Играть →</button>
+        <div class="btn-row small-btns">
+          <button class="btn ghost" id="btn-export">💾 Копия прогресса</button>
+          <button class="btn ghost" id="btn-reset">🔄 Заново</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- МИР -->
+    <section id="screen-world" class="screen sea-bg">
+      <header class="page-head"><h1>Морской мир</h1><p>Новые локации открываются по мере роста дельфина</p></header>
+      <div id="world-grid" class="world-grid"></div>
+    </section>
+
+    <!-- ЗАДАНИЯ -->
+    <section id="screen-tasks" class="screen sea-bg">
+      <header class="page-head"><h1>Задания дня</h1><p>Обновляются каждый день. Награды — жемчужины и опыт.</p></header>
+      <div id="tasks-list"></div>
+    </section>
+
+    <!-- КОЛЛЕКЦИЯ -->
+    <section id="screen-collection" class="screen sea-bg">
+      <header class="page-head"><h1>Коллекция</h1><p>Достижения и найденные морские существа</p></header>
+      <h3 class="sec-title">Достижения</h3>
+      <div id="ach-grid" class="ach-grid"></div>
+      <h3 class="sec-title">Морские существа (<span id="col-count"></span>)</h3>
+      <div id="collection-list" class="collection-list"></div>
+    </section>
+
+    <!-- ЭКОЛОГИЯ -->
+    <section id="screen-eco" class="screen sea-bg">
+      <header class="page-head"><h1>Экология Чёрного моря</h1><p>Узнавай факты — получай опыт</p></header>
+      <div class="eco-banner">
+        <div>🌊</div>
+        <div>
+          <b>Инициатива «Чистые моря»</b>
+          <p>Эко-баллы в игре — виртуальные. Игра учит заботиться о море в реальной жизни, но не совершает пожертвований автоматически.</p>
+        </div>
+      </div>
+      <h3 class="sec-title">Интересные факты</h3>
+      <div id="facts-list"></div>
+    </section>
+
+    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+    <nav id="tabbar">
+      <button class="tab active" data-screen="#screen-home"><span>🐬</span>Дельфин</button>
+      <button class="tab" data-screen="#screen-world"><span>🗺️</span>Мир</button>
+      <button class="tab" data-screen="#screen-tasks"><span>📋</span>Задания</button>
+      <button class="tab" data-screen="#screen-collection"><span>🏆</span>Коллекция</button>
+      <button class="tab" data-screen="#screen-eco"><span>🌱</span>Экология</button>
+    </nav>
+
+    <div id="modal"></div>
+    <div id="toasts"></div>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script>
+    // дельфин на стартовом экране
+    document.addEventListener("DOMContentLoaded", () => {
+      const el = document.getElementById("start-art");
+      if (el && typeof dolphinSVG === "function") el.innerHTML = dolphinSVG("azure", 1.0);
+      const cc = document.getElementById("col-count");
+      if (cc && typeof S !== "undefined" && S) cc.textContent = S.creaturesFound.length + "/" + CREATURES.length;
+    });
+  </script>
+</body>
+</html>
